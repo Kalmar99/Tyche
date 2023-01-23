@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace SaasTemplate.Health;
+namespace Tyche.StarterApp.Health;
 
 [ApiController]
 [Route("api/health")]

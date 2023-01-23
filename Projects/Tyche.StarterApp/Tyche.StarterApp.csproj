@@ -11,7 +11,7 @@
         <SpaProxyServerUrl>https://localhost:44410</SpaProxyServerUrl>
         <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>SaasTemplate</RootNamespace>
+        <RootNamespace>Tyche.StarterApp</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

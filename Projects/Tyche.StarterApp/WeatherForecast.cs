@@ -1,4 +1,4 @@
-namespace SaasTemplate;
+namespace Tyche.StarterApp;
 
 public class WeatherForecast
 {
