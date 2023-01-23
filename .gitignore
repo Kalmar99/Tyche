@@ -1,0 +1,11 @@
+
+# Build
+bin/
+obj/
+/packages/
+
+# Rider / IDE
+riderModule.iml
+/_ReSharper.Caches/
+.idea
+
