@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projects", "Projects", "{35EC9D37-6758-405E-BB2C-24706AEB9533}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tyche.StarterApp", "Projects\Tyche.StarterApp\Tyche.StarterApp.csproj", "{D8A7F034-1F31-495B-832F-B61101AF6138}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tyche.StarterApp.Web", "Projects\Tyche.StarterApp.Web\Tyche.StarterApp.Web.csproj", "{D8A7F034-1F31-495B-832F-B61101AF6138}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{96889351-57B8-4D89-A7FC-B3DC009C5640}"
 EndProject
