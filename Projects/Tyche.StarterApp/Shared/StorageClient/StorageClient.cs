@@ -1,6 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace Tyche.StarterApp.Shared.StorageClient;
 
@@ -38,9 +39,53 @@ internal class StorageClient<T> : IStorageClient<T> where T : StorageEntity
         }
     }
 
-    public virtual Task<T> Get(string key, string? partition = null, CancellationToken ct = default)
+    public virtual async Task<T> Get(string key, CancellationToken ct = default)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var blobClient = await CreateBlobClient(_containerName, key, ct);
+
+            var blob = await blobClient.DownloadAsync(ct);
+
+            await using var blobStream = blob.Value?.Content;
+
+            if (blobStream == null)
+            {
+                throw new Exception($"null response while downloading blob with key: {key}");
+            }
+
+            var json = blobStream.ReadToString();
+
+            if (string.IsNullOrEmpty(json))
+            {
+                throw new Exception($"failed to parse blob with key: {key} to string");
+            }
+
+            return JsonConvert.DeserializeObject<T>(json) ??  throw new Exception($"failed to parse blob with key: {key} to json");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to get entity: {key}", key);
+            throw;
+        }
+    }
+
+    private async Task<IReadOnlyCollection<TaggedBlobItem>> FindBlobsByPartition(string partition, CancellationToken ct = default)
+    {
+        var container = _blobServiceClient.GetBlobContainerClient(_containerName);
+            
+        var query = $"partition={partition}";
+
+        var results = container.FindBlobsByTagsAsync(query, ct);
+
+        var blobs = new List<TaggedBlobItem>();
+
+        await foreach (var blobItem in results)
+        {
+            blobs.Add(blobItem);
+        }
+
+        return blobs;
     }
 
     private async Task<BlobClient> CreateBlobClient(string containerName, string blobKey, CancellationToken ct = default)
