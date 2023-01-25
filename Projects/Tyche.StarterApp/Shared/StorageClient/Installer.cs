@@ -13,7 +13,7 @@ public static class Installer
 
         return services
             .AddSingleton(settings)
-            .AddScoped<BlobClientProvider>()
+            .AddScoped<BlobClientProvider<TSettings>>()
             .AddScoped<IStorageClient<TSettings>, StorageClient<TSettings>>();
     }
 }

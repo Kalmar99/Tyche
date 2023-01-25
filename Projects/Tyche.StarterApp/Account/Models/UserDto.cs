@@ -1,4 +1,4 @@
-﻿namespace Tyche.StarterApp.Shared;
+﻿namespace Tyche.StarterApp.Account;
 
 public class UserDto
 {

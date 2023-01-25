@@ -3,11 +3,11 @@ using Azure.Storage.Blobs.Models;
 
 namespace Tyche.StarterApp.Shared.StorageClient;
 
-internal class BlobClientProvider
+internal class BlobClientProvider<TSettings> where TSettings : class, IStorageSettings
 {
     private readonly BlobContainerClient _blobClient;
 
-    public BlobClientProvider(IStorageSettings settings)
+    public BlobClientProvider(TSettings settings)
     {
         _blobClient = new BlobServiceClient(settings.ConnectionString).GetBlobContainerClient(settings.ContainerName);
     }

@@ -1,15 +1,14 @@
-﻿using System.Text;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Tyche.StarterApp.Shared.StorageClient;
 
-internal class StorageClient<TSettings> : IStorageClient<TSettings> where TSettings : IStorageSettings
+internal class StorageClient<TSettings> : IStorageClient<TSettings> where TSettings : class, IStorageSettings
 {
-    private readonly BlobClientProvider _blobClientProvider;
+    private readonly BlobClientProvider<TSettings> _blobClientProvider;
     private readonly ILogger<StorageClient<TSettings>> _logger;
 
-    public StorageClient(BlobClientProvider blobClientProvider, ILogger<StorageClient<TSettings>> logger)
+    public StorageClient(BlobClientProvider<TSettings> blobClientProvider, ILogger<StorageClient<TSettings>> logger)
     {
         _blobClientProvider = blobClientProvider;
         _logger = logger;

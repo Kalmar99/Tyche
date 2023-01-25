@@ -1,4 +1,6 @@
-﻿namespace Tyche.StarterApp.Shared;
+﻿using Tyche.StarterApp.Shared;
+
+namespace Tyche.StarterApp.Account;
 
 public class AccountDto
 {
@@ -9,7 +11,7 @@ public class AccountDto
         IsCompanyAccount = isCompanyAccount;
     }
     
-    private IReadOnlyCollection<UserDto> Users { get; }
+    public IReadOnlyCollection<UserDto> Users { get; }
 
     public string Name { get; }
 
