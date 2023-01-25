@@ -1,30 +1,26 @@
-﻿using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Tyche.StarterApp.Shared.StorageClient;
 
-internal class StorageClient<T> : IStorageClient<T> where T : StorageEntity
+internal class StorageClient<TSettings> : IStorageClient<TSettings> where TSettings : IStorageSettings
 {
-    private readonly ILogger<StorageClient<T>> _logger;
-    private readonly BlobServiceClient _blobServiceClient;
-    private readonly string _containerName;
+    private readonly BlobClientProvider _blobClientProvider;
+    private readonly ILogger<StorageClient<TSettings>> _logger;
 
-    public StorageClient(StorageSettings settings, ILogger<StorageClient<T>> logger)
+    public StorageClient(BlobClientProvider blobClientProvider, ILogger<StorageClient<TSettings>> logger)
     {
+        _blobClientProvider = blobClientProvider;
         _logger = logger;
-        _blobServiceClient = new BlobServiceClient(settings.ConnectionString);
-        _containerName = settings.ContainerName;
     }
     
-    public virtual async Task Set(T entity, CancellationToken ct = default)
+    public virtual async Task Set<T>(T entity, CancellationToken ct = default) where T : StorageEntity
     {
         try
         {
-            var blobClient = await CreateBlobClient(_containerName, entity.Key, ct);
+            var blobClient = await _blobClientProvider.Get(entity.Key, ct);
 
-            var options = CreateUploadOptions(entity.Partition);
+            var options = BlobUploadOptionsFactory.Create(entity.Partition);
 
             var blobData = BinaryData.FromString(entity.ToJson());
 
@@ -39,11 +35,11 @@ internal class StorageClient<T> : IStorageClient<T> where T : StorageEntity
         }
     }
 
-    public virtual async Task<T> Get(string key, CancellationToken ct = default)
+    public virtual async Task<T> Get<T>(string key, CancellationToken ct = default) where T : StorageEntity
     {
         try
         {
-            var blobClient = await CreateBlobClient(_containerName, key, ct);
+            var blobClient = await _blobClientProvider.Get(key, ct);
 
             var blob = await blobClient.DownloadAsync(ct);
 
@@ -70,56 +66,22 @@ internal class StorageClient<T> : IStorageClient<T> where T : StorageEntity
         }
     }
 
-    private async Task<IReadOnlyCollection<TaggedBlobItem>> FindBlobsByPartition(string partition, CancellationToken ct = default)
+    public virtual async Task<IReadOnlyCollection<StorageEntityMetadata>> Find(string partition, CancellationToken ct = default)
     {
-        var container = _blobServiceClient.GetBlobContainerClient(_containerName);
-            
-        var query = $"partition={partition}";
-
-        var results = container.FindBlobsByTagsAsync(query, ct);
-
-        var blobs = new List<TaggedBlobItem>();
-
-        await foreach (var blobItem in results)
+        try
         {
-            blobs.Add(blobItem);
+            var container = _blobClientProvider.Get();
+
+            var results = container.FindByPartitionAsync(partition, ct);
+
+            var blobs = await StorageEntityMetadataFactory.Create(results, partition);
+
+            return blobs;
         }
-
-        return blobs;
-    }
-
-    private async Task<BlobClient> CreateBlobClient(string containerName, string blobKey, CancellationToken ct = default)
-    {
-        var container = _blobServiceClient.GetBlobContainerClient(containerName);
-            
-        await container.CreateIfNotExistsAsync(PublicAccessType.Blob, cancellationToken: ct);
-
-        return container.GetBlobClient(blobKey);
-    }
-
-    private BlobUploadOptions CreateUploadOptions(string? partition)
-    {
-        var options = new BlobUploadOptions
+        catch (Exception e)
         {
-            HttpHeaders = new BlobHttpHeaders
-            {
-                ContentType = "application/json",
-                ContentHash = new byte[] //TODO: add
-                {
-                },
-                ContentEncoding = "UTF-8",
-                ContentLanguage = null,
-                ContentDisposition = null,
-                CacheControl = null
-            },
-            Tags = new Dictionary<string, string>()
-        };
-
-        if (partition != null)
-        {
-            options.Tags.Add("partition", partition);
+            _logger.LogError(e, "Failed to find any blobs with partition: {partition}", partition);
+            throw;
         }
-
-        return options;
     }
 }

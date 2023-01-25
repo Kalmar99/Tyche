@@ -1,8 +1,8 @@
 ﻿namespace Tyche.StarterApp.Shared.StorageClient;
 
-public interface IStorageClient<T>
+public interface IStorageClient<TSettings>
 {
-    public Task Set(T entity, CancellationToken ct = default);
+    public Task Set<T>(T entity, CancellationToken ct = default) where T : StorageEntity;
 
-    public Task<T> Get(string key, CancellationToken ct = default);
+    public Task<T> Get<T>(string key, CancellationToken ct = default) where T : StorageEntity;
 }
