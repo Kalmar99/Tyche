@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System.Text;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Tyche.StarterApp.Shared.StorageClient;
@@ -20,9 +21,9 @@ internal class StorageClient<TSettings> : IStorageClient<TSettings> where TSetti
         {
             var blobClient = await _blobClientProvider.Get(entity.Key, ct);
 
-            var options = BlobUploadOptionsFactory.Create(entity.Partition);
-
             var blobData = BinaryData.FromString(entity.ToJson());
+            
+            var options = BlobUploadOptionsFactory.Create(entity.Partition, blobData.ToArray());
 
             await blobClient.UploadAsync(blobData, options, ct);
         }
