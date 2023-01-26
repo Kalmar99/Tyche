@@ -32,6 +32,10 @@
       <ProjectReference Include="..\Tyche.StarterApp\Tyche.StarterApp.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="..\..\Tests\Tyche.StarterApp.Web.Tests" />
+    </ItemGroup>
+
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
         <!-- Ensure Node.js is installed -->
         <Exec Command="node --version" ContinueOnError="true">
