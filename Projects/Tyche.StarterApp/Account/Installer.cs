@@ -10,6 +10,9 @@ public static class Installer
     {
         return services
             .AddStorageClient<AccountStorageSettings>(configuration)
-            .AddScoped<IAccountRepository, AccountRepository>();
+            .AddStorageClient<UserStorageSettings>(configuration)
+            .AddScoped<AccountRepository>()
+            .AddScoped<UserRepository>()
+            .AddScoped<IAccountOrchestrator, AccountOrchestrator>();
     }
 }

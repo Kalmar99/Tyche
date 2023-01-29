@@ -5,12 +5,12 @@ namespace Tyche.StarterApp.Account;
 [Route("api/accounts")]
 public class AccountController : ControllerBase
 {
-    private readonly IAccountRepository _accountRepository;
+    private readonly IAccountOrchestrator _orchestrator;
     private readonly ILogger<AccountController> _logger;
 
-    public AccountController(IAccountRepository accountRepository, ILogger<AccountController> logger)
+    public AccountController(IAccountOrchestrator orchestrator, ILogger<AccountController> logger)
     {
-        _accountRepository = accountRepository;
+        _orchestrator = orchestrator;
         _logger = logger;
     }
     
@@ -19,7 +19,7 @@ public class AccountController : ControllerBase
     {
         try
         {
-            await _accountRepository.Set(dto, ct);
+            await _orchestrator.CreateAccount(dto, "test@example.com", "test", ct);
 
             return NoContent();
         }

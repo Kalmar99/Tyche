@@ -1,41 +1,50 @@
-﻿using Tyche.StarterApp.Shared.StorageClient;
+﻿using Microsoft.Extensions.Logging;
+using Tyche.StarterApp.Shared.StorageClient;
 
 namespace Tyche.StarterApp.Account;
 
-internal class AccountRepository : IAccountRepository
+internal class AccountRepository
 {
     private readonly IStorageClient<AccountStorageSettings> _storageClient;
+    private readonly ILogger<AccountRepository> _logger;
 
-    public AccountRepository(IStorageClient<AccountStorageSettings> storageClient)
+    public AccountRepository(IStorageClient<AccountStorageSettings> storageClient, ILogger<AccountRepository> logger)
     {
         _storageClient = storageClient;
+        _logger = logger;
     }
     
-    public async Task Set(AccountDto dto, CancellationToken ct = default)
+    public async Task Set(AccountStorableEntity entity, CancellationToken ct = default)
     {
-        var id = Guid.NewGuid().ToString();
-        
-        var entity = MapToEntity(dto, id);
-        
-        await _storageClient.Set(entity, ct);
+        try
+        {
+            await _storageClient.Set(entity, ct);
+        }
+        catch (Exception exception)
+        {
+            var key = entity.Id;
+            _logger.LogError(exception, "Failed to set AccountStorableEntity with key: {key}", key);
+            throw;
+        }
     }
 
-    public async Task<AccountDto> Get(string key, CancellationToken ct = default)
+    public async Task<AccountStorableEntity> Get(string key, CancellationToken ct = default)
     {
-        var entity = await _storageClient.Get<AccountStorableEntity>(key, ct);
+        try
+        {
+            var entity = await _storageClient.Get<AccountStorableEntity>(key, ct);
 
-        var dto = MapToDto(entity);
-
-        return dto;
+            return entity;
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Failed to get AccountStorableEntity with key: {key}", key);
+            throw;
+        }
     }
 
     private AccountStorableEntity MapToEntity(AccountDto dto, string id)
     {
-        return new AccountStorableEntity(id, dto.Users, dto.Name, dto.IsCompanyAccount);
-    }
-
-    private AccountDto MapToDto(AccountStorableEntity entity)
-    {
-        return new AccountDto(entity.Users, entity.Name, entity.IsCompanyAccount);
+        return new AccountStorableEntity(id, dto.Users.Select(u => u.Id).ToList(), dto.Name, dto.IsCompanyAccount);
     }
 }

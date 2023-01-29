@@ -3,7 +3,7 @@ using Tyche.StarterApp.Shared.StorageClient;
 
 namespace Tyche.StarterApp.Account;
 
-public class UserStorableEntity : StorageEntity
+internal class UserStorableEntity : StorageEntity
 {
     public UserStorableEntity(string id, string email, string password, UserRole role, string accountId) 
         : base(id, email)

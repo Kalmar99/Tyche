@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tyche.StarterApp", "Project
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tyche.StarterApp.Web.Tests", "Tests\Tyche.StarterApp.Web.Tests\Tyche.StarterApp.Web.Tests.csproj", "{B65FA51D-6D30-459A-B9BE-CA2293D41927}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tyche.StarterApp.Tests", "Tests\Tyche.StarterApp.Tests\Tyche.StarterApp.Tests.csproj", "{C7F980D7-550C-4003-8AFB-4A14F9E8F480}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,10 +35,15 @@ Global
 		{B65FA51D-6D30-459A-B9BE-CA2293D41927}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B65FA51D-6D30-459A-B9BE-CA2293D41927}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B65FA51D-6D30-459A-B9BE-CA2293D41927}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7F980D7-550C-4003-8AFB-4A14F9E8F480}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7F980D7-550C-4003-8AFB-4A14F9E8F480}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7F980D7-550C-4003-8AFB-4A14F9E8F480}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7F980D7-550C-4003-8AFB-4A14F9E8F480}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D8A7F034-1F31-495B-832F-B61101AF6138} = {35EC9D37-6758-405E-BB2C-24706AEB9533}
 		{2B18D4FD-C541-4D2C-9200-1A898BC11B1D} = {35EC9D37-6758-405E-BB2C-24706AEB9533}
 		{B65FA51D-6D30-459A-B9BE-CA2293D41927} = {96889351-57B8-4D89-A7FC-B3DC009C5640}
+		{C7F980D7-550C-4003-8AFB-4A14F9E8F480} = {96889351-57B8-4D89-A7FC-B3DC009C5640}
 	EndGlobalSection
 EndGlobal

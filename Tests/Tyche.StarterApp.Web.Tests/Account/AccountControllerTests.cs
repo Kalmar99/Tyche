@@ -29,7 +29,7 @@ public class AccountControllerTests : IAsyncLifetime
     public async Task Add_ShouldAdd_AnAccount()
     {
         // Arrange
-        var dto = new AccountDto(new List<UserDto>(), "test", true);
+        var dto = new AccountDto(new List<User>(), "test", true);
 
         // Act
         var result = await _httpClient.PostAsJsonAsync("/api/accounts", dto);
