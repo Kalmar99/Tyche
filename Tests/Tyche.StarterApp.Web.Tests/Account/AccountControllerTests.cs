@@ -1,26 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Tyche.StarterApp.Account;
+using Tyche.StarterApp.Web.Tests.TestInfrastructure;
 using Xunit;
 
 namespace Tyche.StarterApp.Web.Tests.Account;
 
 public class AccountControllerTests : IAsyncLifetime
 {
+    private readonly ApiFactory _api;
+    
     private readonly HttpClient _httpClient;
-    private readonly AccountApiFactory _factory;
 
+    private readonly AzuriteDatabase _database;
     public AccountControllerTests()
     {
-        _factory = new AccountApiFactory();
-        _httpClient = _factory.CreateClient();
+        _api = new ApiFactory(AddServices);
+        _httpClient = _api.CreateClient();
+        _database = new AzuriteDatabase();
     }
 
     [Fact]
@@ -29,26 +31,29 @@ public class AccountControllerTests : IAsyncLifetime
         // Arrange
         var dto = new AccountDto(new List<UserDto>(), "test", true);
 
-        /*var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-        var services = new ServiceCollection().AddAccountComponent(configuration).BuildServiceProvider();
-        var repository = services.GetService<IAccountRepository>(); */
-
         // Act
         var result = await _httpClient.PostAsJsonAsync("/api/accounts", dto);
-       
-        
+
         // Assert
         Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
     }
 
     public async Task InitializeAsync()
     {
-        await _factory.InitializeAsync();
+        await _database.InitializeAsync();
     }
 
     public async Task DisposeAsync()
     {
         _httpClient.Dispose();
-        await _factory.DisposeAsync();
+        await _api.DisposeAsync();
+        await _database.DisposeAsync();
+    }
+
+    private void AddServices(IServiceCollection serviceCollection)
+    {
+        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+        serviceCollection.AddAccount(configuration);
     }
 }
