@@ -3,7 +3,7 @@ using DotNet.Testcontainers.Builders;
 using DotNet.Testcontainers.Containers;
 using Xunit;
 
-namespace Tyche.StarterApp.Web.Tests.TestInfrastructure;
+namespace Tyche.StarterApp.Web.Tests;
 
 public class AzuriteDatabase : IAsyncLifetime
 {

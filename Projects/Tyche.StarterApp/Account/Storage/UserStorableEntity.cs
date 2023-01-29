@@ -5,23 +5,33 @@ namespace Tyche.StarterApp.Account;
 
 internal class UserStorableEntity : StorageEntity
 {
-    public UserStorableEntity(string id, string email, string password, UserRole role, string accountId) 
+    private const string DisabledUserName = "Disabled User";
+    
+    public UserStorableEntity(string id, string name, string email, string password, UserRole role, string accountId) 
         : base(id, email)
     {
-        Id = id;
+        Name = name;
         Email = email;
         Password = password;
         Role = role;
         AccountId = accountId;
     }
 
-    public string Id { get; }
+    public string Name { get; private set; }
     
-    public string Email { get; }
+    public string Email { get; private set; }
 
-    public string Password { get; }
+    public string Password { get; private set;}
 
-    public UserRole Role { get; }
+    public UserRole Role { get; private set;}
 
     public string AccountId { get; }
+
+    public void Disable()
+    {
+        Email = string.Empty;
+        Password = string.Empty;
+        Role = UserRole.Disabled;
+        Name = DisabledUserName;
+    }
 }

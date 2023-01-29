@@ -4,9 +4,9 @@ namespace Tyche.StarterApp.Account;
 
 public static class UserFactory
 {
-    public static User Create(string email, string password, UserRole role, string accountId)
+    public static UserDto Create(string email, string name, string password, UserRole role, string accountId)
     {
         var userId = Md5Hash.Generate(email);
-        return new User(userId, email, password, role, accountId);
+        return new UserDto(userId, name, email, password, role, accountId);
     }
 }

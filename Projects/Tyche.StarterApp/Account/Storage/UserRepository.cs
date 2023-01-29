@@ -15,17 +15,31 @@ internal class UserRepository
         _logger = logger;
     }
     
-    public async Task Set(User user, CancellationToken ct = default)
+    public async Task Set(UserDto userDto, CancellationToken ct = default)
     {
-        var key = Md5Hash.Generate(user.Email);
+        var key = Md5Hash.Generate(userDto.Email);
         
         try
         {
-            var entity = MapToEntity(user, key);
+            var entity = MapToEntity(userDto, key);
             await _storageClient.Set(entity, ct);
         }
         catch (Exception exception)
         {
+            _logger.LogError(exception, "Failed to set user with key: {key}", key);
+            throw;
+        }
+    }
+    
+    public async Task Set(UserStorableEntity entity, CancellationToken ct = default)
+    {
+        try
+        {
+            await _storageClient.Set(entity, ct);
+        }
+        catch (Exception exception)
+        {
+            var key = entity.Key;
             _logger.LogError(exception, "Failed to set user with key: {key}", key);
             throw;
         }
@@ -68,8 +82,8 @@ internal class UserRepository
         }
     }
 
-    private UserStorableEntity MapToEntity(User user, string key)
+    private UserStorableEntity MapToEntity(UserDto userDto, string key)
     {
-        return new UserStorableEntity(key, user.Email, user.Password, user.Role, user.AccountId);
+        return new UserStorableEntity(key, userDto.Name, userDto.Email, userDto.Password, userDto.Role, userDto.AccountId);
     }
 }

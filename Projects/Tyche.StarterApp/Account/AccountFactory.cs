@@ -17,5 +17,5 @@ internal static class AccountFactory
         return new AccountDto(users, accountStorableEntity.Name, accountStorableEntity.IsCompanyAccount);
     }
     
-    private static User Map(UserStorableEntity entity) => new User(entity.Id, entity.Email, entity.Password, entity.Role, entity.AccountId);
+    private static UserDto Map(UserStorableEntity entity) => new(entity.Key, entity.Name, entity.Email, entity.Password, entity.Role, entity.AccountId);
 }

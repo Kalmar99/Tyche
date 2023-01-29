@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -6,11 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Tyche.StarterApp.Account;
-using Tyche.StarterApp.Web.Tests.TestInfrastructure;
 using Xunit;
 
 namespace Tyche.StarterApp.Web.Tests.Account;
 
+[Collection(nameof(Account))]
 public class AccountControllerTests : IAsyncLifetime
 {
     private readonly ApiFactory _api;
@@ -18,6 +19,7 @@ public class AccountControllerTests : IAsyncLifetime
     private readonly HttpClient _httpClient;
 
     private readonly AzuriteDatabase _database;
+
     public AccountControllerTests()
     {
         _api = new ApiFactory(AddServices);
@@ -26,14 +28,28 @@ public class AccountControllerTests : IAsyncLifetime
     }
 
     [Fact]
-    public async Task Add_ShouldAdd_AnAccount()
+    public async Task Add_ShouldReturn_204NoContent()
     {
         // Arrange
-        var dto = new AccountDto(new List<User>(), "test", true);
+        var dto = new AccountDto(new List<UserDto>(), "test", true);
 
         // Act
         var result = await _httpClient.PostAsJsonAsync("/api/accounts", dto);
 
+        // Assert
+        Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task AddUser_ShouldReturn_204NoContent()
+    {
+        // Arrange
+        var accountId = await CreateAccount();
+        var dto = UserDtoFactory.Create(accountId);
+        
+        // Act
+        var result = await _httpClient.PostAsJsonAsync("/api/accounts", dto);
+        
         // Assert
         Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
     }
@@ -55,5 +71,14 @@ public class AccountControllerTests : IAsyncLifetime
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
         serviceCollection.AddAccount(configuration);
+    }
+
+    private async Task<string> CreateAccount()
+    {
+        using var scope = _api.Services.CreateScope();
+        var orchestrator =  scope.ServiceProvider.GetService<IAccountOrchestrator>();
+        
+        var account = new AccountDto(new List<UserDto>(), "test", true);
+        return await orchestrator!.CreateAccount(account, Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
     }
 }

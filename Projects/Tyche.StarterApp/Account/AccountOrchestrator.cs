@@ -23,32 +23,36 @@ internal class AccountOrchestrator : IAccountOrchestrator
         return account;
     }
 
-    public async Task CreateAccount(AccountDto dto, string userEmail, string userPassword, CancellationToken ct = default)
+    public async Task<string> CreateAccount(AccountDto dto, string userName, string userEmail, string userPassword, CancellationToken ct = default)
     {
         var accountStorableEntity = AccountFactory.Create(dto, userEmail, userPassword);
         
-        var adminUser = UserFactory.Create(userEmail, userPassword, UserRole.AccountAdmin, accountStorableEntity.Id);
+        var adminUser = UserFactory.Create(userEmail, userName, userPassword, UserRole.AccountAdmin, accountStorableEntity.Id);
         
         accountStorableEntity.Users.Add(adminUser.Id);
 
         await _accountRepository.Set(accountStorableEntity, ct);
 
         await _userRepository.Set(adminUser, ct);
+
+        return accountStorableEntity.Id;
     }
 
-    public async Task AddUser (User user, CancellationToken ct = default)
+    public async Task AddUser (UserDto userDto, CancellationToken ct = default)
     {
-        var account = await _accountRepository.Get(user.AccountId, ct);
+        var account = await _accountRepository.Get(userDto.AccountId, ct);
         
-        account.Users.Add(user.Id);
+        account.Users.Add(userDto.Id);
 
-        await _userRepository.Set(user, ct);
+        await _userRepository.Set(userDto, ct);
 
         await _accountRepository.Set(account, ct);
     }
 
-    public async Task DisableUser(User user, CancellationToken ct = default)
+    public async Task DisableUser(string userId, CancellationToken ct = default)
     {
+        var user = await _userRepository.Get(userId, ct);
+        
         user.Disable();
 
         await _userRepository.Set(user, ct);

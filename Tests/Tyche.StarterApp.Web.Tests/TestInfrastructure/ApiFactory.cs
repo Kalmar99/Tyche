@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Tyche.StarterApp.Web.Tests.TestInfrastructure;
+namespace Tyche.StarterApp.Web.Tests;
 
 public class ApiFactory : WebApplicationFactory<Program>
 {
