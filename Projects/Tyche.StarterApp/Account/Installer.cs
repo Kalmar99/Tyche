@@ -13,6 +13,7 @@ public static class Installer
             .AddStorageClient<UserStorageSettings>(configuration)
             .AddScoped<AccountRepository>()
             .AddScoped<UserRepository>()
+            .AddScoped<AccountService>()
             .AddScoped<IAccountOrchestrator, AccountOrchestrator>();
     }
 }

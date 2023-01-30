@@ -44,6 +44,21 @@ internal class UserRepository
             throw;
         }
     }
+    
+    public async Task Set(IReadOnlyCollection<UserStorableEntity> entities, CancellationToken ct = default)
+    {
+        try
+        {
+            var tasks = entities.Select(e => Set(e, ct));
+            await Task.WhenAll(tasks);
+        }
+        catch (Exception exception)
+        {
+            var accountId = entities.FirstOrDefault()?.AccountId;
+            _logger.LogError(exception, "Failed to set users with accountId: {accountId}", accountId);
+            throw;
+        }
+    }
 
     public async Task<UserStorableEntity> Get(string key, CancellationToken ct = default)
     {

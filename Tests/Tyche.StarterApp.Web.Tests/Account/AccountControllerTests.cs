@@ -65,7 +65,7 @@ public class AccountControllerTests : IAsyncLifetime
     {
         // Arrange
         var dto = await _accountUtils.CreateUser();
-        var request = HttpRequestFactory.Create($"/api/accounts/users/{dto.Id}", HttpMethod.Delete);
+        var request = HttpRequestFactory.Create($"/api/accounts/{dto.AccountId}/users/{dto.Id}", HttpMethod.Delete);
 
         // Act
         var result = await _httpClient.SendAsync(request);

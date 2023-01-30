@@ -42,9 +42,4 @@ internal class AccountRepository
             throw;
         }
     }
-
-    private AccountStorableEntity MapToEntity(AccountDto dto, string id)
-    {
-        return new AccountStorableEntity(id, dto.Users.Select(u => u.Id).ToList(), dto.Name, dto.IsCompanyAccount);
-    }
 }

@@ -2,60 +2,43 @@
 
 internal class AccountOrchestrator : IAccountOrchestrator
 {
-    private readonly AccountRepository _accountRepository;
-    
-    private readonly UserRepository _userRepository;
+    private readonly AccountService _accountService;
 
-    public AccountOrchestrator(AccountRepository accountRepository, UserRepository userRepository)
+    public AccountOrchestrator(AccountService accountService)
     {
-        _accountRepository = accountRepository;
-        _userRepository = userRepository;
+        _accountService = accountService;
     }
     
-    public async Task<AccountDto> GetAccount(string accountId, CancellationToken ct = default)
+    public async Task<Account> Get(string accountId, CancellationToken ct = default)
     {
-        var accountStorableEntity = await _accountRepository.Get(accountId, ct);
-
-        var userStorableEntities = await _userRepository.Get(accountStorableEntity.Users, ct);
-
-        var account = AccountFactory.Create(accountStorableEntity, userStorableEntities);
-
-        return account;
+        return await _accountService.Get(accountId, ct);
     }
 
-    public async Task<string> CreateAccount(AccountDto dto, UserDto userDto, CancellationToken ct = default)
+    public async Task<string> Create(AccountDto dto, UserDto userDto, CancellationToken ct = default)
     {
-        var accountStorableEntity = AccountFactory.Create(dto, userDto.Email, userDto.Password);
-        
-        var adminUser = UserFactory.Create(userDto.Email, userDto.Name, userDto.Password, UserRole.AccountAdmin, accountStorableEntity.Id);
-        
-        accountStorableEntity.Users.Add(adminUser.Id);
+        var account = AccountFactory.Create(dto, userDto);
 
-        await _accountRepository.Set(accountStorableEntity, ct);
+        await _accountService.Update(account, ct);
 
-        await _userRepository.Set(adminUser, ct);
-
-        return accountStorableEntity.Id;
+        return account.Id;
     }
 
-    public async Task AddUser (UserDto userDto, CancellationToken ct = default)
+    public async Task AttachUser (UserDto userDto, CancellationToken ct = default)
     {
-        var account = await _accountRepository.Get(userDto.AccountId, ct);
+        var account = await _accountService.Get(userDto.AccountId, ct);
         
-        account.Users.Add(userDto.Id);
+        account.AddUser(userDto.Name, userDto.Email, userDto.Password);
 
-        await _userRepository.Set(userDto, ct);
-
-        await _accountRepository.Set(account, ct);
+        await _accountService.Update(account, ct);
     }
 
-    public async Task DisableUser(string userId, CancellationToken ct = default)
+    public async Task DisableUser(string userId, string accountId, CancellationToken ct = default)
     {
-        var user = await _userRepository.Get(userId, ct);
+        var account = await _accountService.Get(accountId, ct);
         
-        user.Disable();
+        account.DisableUser(userId);
 
-        await _userRepository.Set(user, ct);
+        await _accountService.Update(account, ct);
     }
 
 }

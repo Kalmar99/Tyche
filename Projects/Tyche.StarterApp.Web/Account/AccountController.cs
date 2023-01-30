@@ -26,7 +26,7 @@ public class AccountController : ControllerBase
         
         try
         {
-            await _orchestrator.CreateAccount(dto.Account, dto.User, ct);
+            await _orchestrator.Create(dto.Account!, dto.User!, ct);
 
             return NoContent();
         }
@@ -50,7 +50,7 @@ public class AccountController : ControllerBase
         
         try
         {
-            await _orchestrator.AddUser(dto, ct);
+            await _orchestrator.AttachUser(dto, ct);
 
             return NoContent();
         }
@@ -62,8 +62,8 @@ public class AccountController : ControllerBase
         }
     }
     
-    [HttpDelete("users/{userId}")]
-    public async Task<IActionResult> DisableUser([FromRoute] string userId, CancellationToken ct = default)
+    [HttpDelete("{accountId}/users/{userId}")]
+    public async Task<IActionResult> DisableUser([FromRoute] string accountId, [FromRoute] string userId, CancellationToken ct = default)
     {
         if (string.IsNullOrEmpty(userId))
         {
@@ -72,7 +72,7 @@ public class AccountController : ControllerBase
         
         try
         {
-            await _orchestrator.DisableUser(userId, ct);
+            await _orchestrator.DisableUser(userId, accountId, ct);
 
             return NoContent();
         }

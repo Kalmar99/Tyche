@@ -22,7 +22,4 @@ internal class AccountStorableEntity : StorageEntity
     public string Name { get; }
 
     public bool IsCompanyAccount { get; }
-
-    public static AccountStorableEntity Create(string id, string name, bool isCompanyAccount = true) =>
-        new(id, new List<string>(), name, isCompanyAccount);
 }

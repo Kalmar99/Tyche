@@ -24,8 +24,8 @@ internal class AccountUtils
         var account = new AccountDto(new List<UserDto>(), "test", true);
 
         var userDto = new UserDto(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), UserRole.AccountAdmin, string.Empty);
-        
-        return await orchestrator!.CreateAccount(account, userDto);
+
+        return await orchestrator!.Create(account, userDto);
     }
     
     public async Task<UserDto> CreateUser()
@@ -37,7 +37,7 @@ internal class AccountUtils
 
         var userDto = new UserDto(Md5Hash.Generate("testuser@example.com"), Guid.NewGuid().ToString(), "testuser@example.com", Guid.NewGuid().ToString(), UserRole.User, accountId);
 
-        await orchestrator!.AddUser(userDto);
+        await orchestrator!.AttachUser(userDto);
 
         return userDto;
     }

@@ -18,21 +18,13 @@ internal class UserStorableEntity : StorageEntity
         AccountId = accountId;
     }
 
-    public string Name { get; private set; }
+    public string Name { get; }
     
-    public string Email { get; private set; }
+    public string Email { get; }
 
-    public string Password { get; private set;}
+    public string Password { get; }
 
-    public UserRole Role { get; private set;}
+    public UserRole Role { get; }
 
     public string AccountId { get; }
-
-    public void Disable()
-    {
-        Email = string.Empty;
-        Password = string.Empty;
-        Role = UserRole.Disabled;
-        Name = DisabledUserName;
-    }
 }
