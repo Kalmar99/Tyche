@@ -43,6 +43,7 @@ Unit tests for the business logic can be found under `Tyche.StarterApp.Tests` an
 Tyche uses Azure BlobStorage and a Key-Value like approach to storing data, however you are not limited to using azure blob storage if you dont want to! You can just create your own implementation of `IStorageClient` and use whatever database you want under the hood.
 
 ## Roadmap 🗺
+points that are ~~striked out~~ is finished
 - **Accounts**
   - ~~Support accounts with multiple users attached to them~~
   - Users can have roles assigned and revoked by account admin
