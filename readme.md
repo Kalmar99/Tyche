@@ -37,6 +37,8 @@ the project is split into multiple projects, `Tyche.StarterApp` & `Tyche.Starter
 Today the web front-end & api is served using ASP.NET Core 6 but tomorrow you might want to host it using f.ex azure functions or something else instead.
 By isolating the business logic the project is not tied to a specific hosting model and you are free to change it if you like.  
 
+Unit tests for the business logic can be found under `Tyche.StarterApp.Tests` and integration tests for the web project can be found under `Tyche.StarterApp.Web.Tests`
+
 **Storage**  
 Tyche uses Azure BlobStorage and a Key-Value like approach to storing data, however you are not limited to using azure blob storage if you dont want to! You can just create your own implementation of `IStorageClient` and use whatever database you want under the hood.
 
