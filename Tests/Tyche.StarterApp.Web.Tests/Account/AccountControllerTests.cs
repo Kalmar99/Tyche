@@ -6,7 +6,9 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Tyche.StarterApp.Account;
+using Tyche.StarterApp.Shared;
 using Xunit;
 
 namespace Tyche.StarterApp.Web.Tests.Account;
@@ -32,9 +34,10 @@ public class AccountControllerTests : IAsyncLifetime
     {
         // Arrange
         var dto = new AccountDto(new List<UserDto>(), "test", true);
+        var request = HttpRequestFactory.Create("/api/accounts", dto, HttpMethod.Post);
 
         // Act
-        var result = await _httpClient.PostAsJsonAsync("/api/accounts", dto);
+        var result = await _httpClient.SendAsync(request);
 
         // Assert
         Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
@@ -46,10 +49,25 @@ public class AccountControllerTests : IAsyncLifetime
         // Arrange
         var accountId = await CreateAccount();
         var dto = UserDtoFactory.Create(accountId);
+        var request = HttpRequestFactory.Create("/api/accounts/users", dto, HttpMethod.Post);
         
         // Act
-        var result = await _httpClient.PostAsJsonAsync("/api/accounts", dto);
+        var result = await _httpClient.SendAsync(request);
         
+        // Assert
+        Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
+    }
+
+    [Fact]
+    public async Task DisableUser_ShouldReturn_204NoContent()
+    {
+        // Arrange
+        var dto = await CreateUser();
+        var request = HttpRequestFactory.Create($"/api/accounts/users/{dto.Id}", HttpMethod.Delete);
+
+        // Act
+        var result = await _httpClient.SendAsync(request);
+
         // Assert
         Assert.Equal(HttpStatusCode.NoContent, result.StatusCode);
     }
@@ -80,5 +98,24 @@ public class AccountControllerTests : IAsyncLifetime
         
         var account = new AccountDto(new List<UserDto>(), "test", true);
         return await orchestrator!.CreateAccount(account, Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+    }
+    
+    private async Task<UserDto> CreateUser()
+    {
+        using var scope = _api.Services.CreateScope();
+        var orchestrator =  scope.ServiceProvider.GetService<IAccountOrchestrator>();
+        
+        var account = new AccountDto(new List<UserDto>(), "test", true);
+        
+        var accountId = await orchestrator!.CreateAccount(account, Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
+
+        var userEmail = "testuser@example.com";
+        var userId = Md5Hash.Generate(userEmail);
+        
+        var userDto = new UserDto(userId, Guid.NewGuid().ToString(), userEmail, Guid.NewGuid().ToString(), UserRole.User, accountId);
+
+        await orchestrator!.AddUser(userDto);
+
+        return userDto;
     }
 }

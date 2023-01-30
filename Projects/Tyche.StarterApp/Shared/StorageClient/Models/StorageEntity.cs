@@ -10,7 +10,7 @@ public abstract class StorageEntity
         Partition = partition;
     }
 
-    public string Key { get; }
+    public string Key { get; init; }
 
     public string? Partition { get; }
 

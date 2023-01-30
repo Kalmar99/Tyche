@@ -7,9 +7,10 @@ internal class UserStorableEntity : StorageEntity
 {
     private const string DisabledUserName = "Disabled User";
     
-    public UserStorableEntity(string id, string name, string email, string password, UserRole role, string accountId) 
-        : base(id, email)
+    public UserStorableEntity(string key, string name, string email, string password, UserRole role, string accountId) 
+        : base(key, email)
     {
+        Key = key;
         Name = name;
         Email = email;
         Password = password;

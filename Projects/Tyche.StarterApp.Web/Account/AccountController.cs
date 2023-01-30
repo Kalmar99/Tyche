@@ -38,7 +38,7 @@ public class AccountController : ControllerBase
         }
     }
     
-    [HttpPost("/users")]
+    [HttpPost("users")]
     public async Task<IActionResult> AddUser([FromBody] UserDto dto, CancellationToken ct = default)
     {
         if (dto.IsInvalid())
@@ -62,8 +62,8 @@ public class AccountController : ControllerBase
         }
     }
     
-    [HttpDelete("/users/{userId}")]
-    public async Task<IActionResult> DisableUser([FromQuery] string userId, CancellationToken ct = default)
+    [HttpDelete("users/{userId}")]
+    public async Task<IActionResult> DisableUser([FromRoute] string userId, CancellationToken ct = default)
     {
         if (string.IsNullOrEmpty(userId))
         {
