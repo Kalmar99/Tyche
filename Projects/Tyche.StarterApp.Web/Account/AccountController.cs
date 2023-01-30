@@ -15,7 +15,7 @@ public class AccountController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] AccountDto dto, CancellationToken ct = default)
+    public async Task<IActionResult> Add([FromBody] AddAccountRequestDto dto, CancellationToken ct = default)
     {
         if (dto.IsInvalid())
         {
@@ -26,7 +26,7 @@ public class AccountController : ControllerBase
         
         try
         {
-            await _orchestrator.CreateAccount(dto, "test","test@example.com", "test", ct);
+            await _orchestrator.CreateAccount(dto.Account, dto.User, ct);
 
             return NoContent();
         }

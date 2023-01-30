@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using Tyche.StarterApp.Account;
-using Tyche.StarterApp.Shared;
 using Xunit;
 
 namespace Tyche.StarterApp.Web.Tests.Account;
@@ -22,19 +19,24 @@ public class AccountControllerTests : IAsyncLifetime
 
     private readonly AzuriteDatabase _database;
 
+    private readonly AccountUtils _accountUtils;
+
     public AccountControllerTests()
     {
         _api = new ApiFactory(AddServices);
         _httpClient = _api.CreateClient();
         _database = new AzuriteDatabase();
+        _accountUtils = new AccountUtils(_api);
     }
 
     [Fact]
     public async Task Add_ShouldReturn_204NoContent()
     {
         // Arrange
-        var dto = new AccountDto(new List<UserDto>(), "test", true);
-        var request = HttpRequestFactory.Create("/api/accounts", dto, HttpMethod.Post);
+        var accountDto = new AccountDto(new List<UserDto>(), "test", true);
+        var userDto = UserDtoFactory.Create(Guid.NewGuid().ToString());
+        
+        var request = HttpRequestFactory.Create("/api/accounts", new AddAccountRequestDto(accountDto, userDto), HttpMethod.Post);
 
         // Act
         var result = await _httpClient.SendAsync(request);
@@ -47,7 +49,7 @@ public class AccountControllerTests : IAsyncLifetime
     public async Task AddUser_ShouldReturn_204NoContent()
     {
         // Arrange
-        var accountId = await CreateAccount();
+        var accountId = await _accountUtils.CreateAccount();
         var dto = UserDtoFactory.Create(accountId);
         var request = HttpRequestFactory.Create("/api/accounts/users", dto, HttpMethod.Post);
         
@@ -62,7 +64,7 @@ public class AccountControllerTests : IAsyncLifetime
     public async Task DisableUser_ShouldReturn_204NoContent()
     {
         // Arrange
-        var dto = await CreateUser();
+        var dto = await _accountUtils.CreateUser();
         var request = HttpRequestFactory.Create($"/api/accounts/users/{dto.Id}", HttpMethod.Delete);
 
         // Act
@@ -89,33 +91,5 @@ public class AccountControllerTests : IAsyncLifetime
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
         serviceCollection.AddAccount(configuration);
-    }
-
-    private async Task<string> CreateAccount()
-    {
-        using var scope = _api.Services.CreateScope();
-        var orchestrator =  scope.ServiceProvider.GetService<IAccountOrchestrator>();
-        
-        var account = new AccountDto(new List<UserDto>(), "test", true);
-        return await orchestrator!.CreateAccount(account, Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-    }
-    
-    private async Task<UserDto> CreateUser()
-    {
-        using var scope = _api.Services.CreateScope();
-        var orchestrator =  scope.ServiceProvider.GetService<IAccountOrchestrator>();
-        
-        var account = new AccountDto(new List<UserDto>(), "test", true);
-        
-        var accountId = await orchestrator!.CreateAccount(account, Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-
-        var userEmail = "testuser@example.com";
-        var userId = Md5Hash.Generate(userEmail);
-        
-        var userDto = new UserDto(userId, Guid.NewGuid().ToString(), userEmail, Guid.NewGuid().ToString(), UserRole.User, accountId);
-
-        await orchestrator!.AddUser(userDto);
-
-        return userDto;
     }
 }

@@ -23,11 +23,11 @@ internal class AccountOrchestrator : IAccountOrchestrator
         return account;
     }
 
-    public async Task<string> CreateAccount(AccountDto dto, string userName, string userEmail, string userPassword, CancellationToken ct = default)
+    public async Task<string> CreateAccount(AccountDto dto, UserDto userDto, CancellationToken ct = default)
     {
-        var accountStorableEntity = AccountFactory.Create(dto, userEmail, userPassword);
+        var accountStorableEntity = AccountFactory.Create(dto, userDto.Email, userDto.Password);
         
-        var adminUser = UserFactory.Create(userEmail, userName, userPassword, UserRole.AccountAdmin, accountStorableEntity.Id);
+        var adminUser = UserFactory.Create(userDto.Email, userDto.Name, userDto.Password, UserRole.AccountAdmin, accountStorableEntity.Id);
         
         accountStorableEntity.Users.Add(adminUser.Id);
 
