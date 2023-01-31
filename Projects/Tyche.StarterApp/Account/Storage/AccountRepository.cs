@@ -14,7 +14,7 @@ internal class AccountRepository
         _logger = logger;
     }
     
-    public async Task Set(AccountStorableEntity entity, CancellationToken ct = default)
+    public virtual async Task Set(AccountStorableEntity entity, CancellationToken ct = default)
     {
         try
         {
@@ -28,7 +28,7 @@ internal class AccountRepository
         }
     }
 
-    public async Task<AccountStorableEntity> Get(string key, CancellationToken ct = default)
+    public virtual async Task<AccountStorableEntity> Get(string key, CancellationToken ct = default)
     {
         try
         {

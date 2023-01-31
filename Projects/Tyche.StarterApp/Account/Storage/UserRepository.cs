@@ -15,7 +15,7 @@ internal class UserRepository
         _logger = logger;
     }
     
-    public async Task Set(UserDto userDto, CancellationToken ct = default)
+    public virtual async Task Set(UserDto userDto, CancellationToken ct = default)
     {
         var key = Md5Hash.Generate(userDto.Email);
         
@@ -31,7 +31,7 @@ internal class UserRepository
         }
     }
     
-    public async Task Set(UserStorableEntity entity, CancellationToken ct = default)
+    public virtual async Task Set(UserStorableEntity entity, CancellationToken ct = default)
     {
         try
         {

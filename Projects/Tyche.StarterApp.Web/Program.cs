@@ -1,4 +1,4 @@
-using Tyche.StarterApp.Account;
+using Tyche.StarterApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +8,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddAccount(builder.Configuration);
+builder.Services.AddComponents(builder.Configuration);
 
 var app = builder.Build();
 
