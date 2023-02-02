@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Tyche.StarterApp.Account;
+using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Tests.Account;
 

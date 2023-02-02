@@ -1,6 +1,6 @@
-﻿using Tyche.StarterApp.Shared;
+﻿using Tyche.StarterApp.Account;
 
-namespace Tyche.StarterApp.Account;
+namespace Tyche.StarterApp.Shared;
 
 public class User
 {

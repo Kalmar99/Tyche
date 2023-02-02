@@ -1,4 +1,6 @@
-﻿namespace Tyche.StarterApp.Account;
+﻿using Tyche.StarterApp.Shared;
+
+namespace Tyche.StarterApp.Account;
 
 internal static class AccountFactory
 {
