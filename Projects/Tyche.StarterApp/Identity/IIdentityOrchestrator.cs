@@ -1,9 +1,9 @@
-﻿using Tyche.StarterApp.Identity.Models;
+﻿using System.Security.Claims;
 using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Identity;
 
 public interface IIdentityOrchestrator
 {
-    public Task<AuthenticationResultDto> Authenticate(User user, CancellationToken ct = default);
+    public Task<ClaimsPrincipal?> Authenticate(User user, string password, CancellationToken ct = default);
 }
