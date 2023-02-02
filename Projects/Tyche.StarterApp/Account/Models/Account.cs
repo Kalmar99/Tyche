@@ -20,10 +20,8 @@ public class Account
 
     public bool IsCompanyAccount { get; }
 
-    public void AddUser(string name, string email, string password)
+    public void AddUser(User user)
     {
-        var user = new User(name, email, password, UserRole.User, Id);
-        
         Users.Add(user);
     }
 

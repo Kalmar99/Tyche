@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Tyche.StarterApp.Account;
+using Tyche.StarterApp.Shared;
 using Xunit;
 
 namespace Tyche.StarterApp.Web.Tests.Account;
@@ -24,9 +25,9 @@ public class AccountControllerTests : IAsyncLifetime
     public AccountControllerTests()
     {
         _api = new ApiFactory(AddServices);
-        _httpClient = _api.CreateClient();
         _database = new AzuriteDatabase();
         _accountUtils = new AccountUtils(_api);
+        _httpClient = _api.CreateClient();
     }
 
     [Fact]
@@ -90,6 +91,8 @@ public class AccountControllerTests : IAsyncLifetime
     {
         var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
-        serviceCollection.AddAccount(configuration);
+        serviceCollection
+            .AddSharedModule(configuration)
+            .AddAccount(configuration);
     }
 }

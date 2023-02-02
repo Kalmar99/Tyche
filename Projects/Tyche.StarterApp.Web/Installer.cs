@@ -1,4 +1,5 @@
 ﻿using Tyche.StarterApp.Account;
+using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp;
 
@@ -6,6 +7,8 @@ public static class Installer
 {
     public static IServiceCollection AddComponents(this IServiceCollection services, IConfiguration configuration)
     {
-        return services.AddAccount(configuration);
+        return services
+            .AddSharedModule(configuration)
+            .AddAccount(configuration);
     }
 }

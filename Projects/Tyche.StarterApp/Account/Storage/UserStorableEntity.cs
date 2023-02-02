@@ -5,8 +5,6 @@ namespace Tyche.StarterApp.Account;
 
 internal class UserStorableEntity : StorageEntity
 {
-    private const string DisabledUserName = "Disabled User";
-    
     public UserStorableEntity(string key, string name, string email, string password, UserRole role, string accountId) 
         : base(key, email)
     {

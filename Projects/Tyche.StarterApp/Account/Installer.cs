@@ -11,6 +11,8 @@ public static class Installer
         return services
             .AddStorageClient<AccountStorageSettings>(configuration)
             .AddStorageClient<UserStorageSettings>(configuration)
+            .AddScoped<UserFactory>()
+            .AddScoped<AccountFactory>()
             .AddScoped<AccountRepository>()
             .AddScoped<UserRepository>()
             .AddScoped<AccountService>()

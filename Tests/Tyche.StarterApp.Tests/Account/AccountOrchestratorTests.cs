@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Tyche.StarterApp.Account;
+using Tyche.StarterApp.Shared.HashManager;
+using Tyche.StarterApp.Shared.SecureHasher;
 using Tyche.StarterApp.Shared.StorageClient;
 using Xunit;
 
@@ -18,12 +20,17 @@ public class AccountOrchestratorTests
     {
         var userRepository = new Mock<UserRepository>(new Mock<IStorageClient<UserStorageSettings>>().Object, new Mock<ILogger<UserRepository>>().Object);
         var accountRepository = new Mock<AccountRepository>(new Mock<IStorageClient<AccountStorageSettings>>().Object, new Mock<ILogger<AccountRepository>>().Object);
+        var saltRepository = new Mock<SaltRepository>(new Mock<IStorageClient<SaltStorageSettings>>().Object, new Mock<ILogger<SaltRepository>>().Object).Object;
 
         _accountRepository = accountRepository;
 
         var accountService = new AccountService(userRepository.Object, accountRepository.Object, new Mock<ILogger<AccountService>>().Object);
 
-        _orchestrator = new AccountOrchestrator(accountService);
+
+        var userFactory = new Tyche.StarterApp.Account.UserFactory(new HashManager(saltRepository));
+        var accountFactory = new Tyche.StarterApp.Account.AccountFactory(userFactory);
+
+        _orchestrator = new AccountOrchestrator(accountService, accountFactory, userFactory);
     }
 
     [Fact]

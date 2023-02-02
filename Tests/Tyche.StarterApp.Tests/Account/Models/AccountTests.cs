@@ -11,7 +11,7 @@ public class AccountTests
         var account = AccountFactory.Create();
         
         // Act
-        account.AddUser("username", "email@example.com", "password");
+        account.AddUser(UserFactory.Create());
         
         // Assert
         Assert.Single(account.Users);

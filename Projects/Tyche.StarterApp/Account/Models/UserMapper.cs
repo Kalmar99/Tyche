@@ -12,6 +12,6 @@ internal static class UserMapper
     
     public static User Map(UserStorableEntity entity)
     {
-        return new User(entity.Name, entity.Email, entity.Password, entity.Role, entity.AccountId);
+        return new User(entity.Key, entity.Name, entity.Email, entity.Password, entity.Role, entity.AccountId);
     }
 }

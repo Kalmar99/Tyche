@@ -1,12 +1,13 @@
 ﻿using Tyche.StarterApp.Account;
+using Tyche.StarterApp.Shared.HashManager;
 
 namespace Tyche.StarterApp.Shared;
 
 public class User
 {
-    public User(string name, string email, string password, UserRole role, string accountId)
+    public User(string id, string name, string email, string password, UserRole role, string accountId)
     {
-        Id = Md5Hash.Generate(email);
+        Id = id;
         Name = name;
         Email = email;
         Password = password;
