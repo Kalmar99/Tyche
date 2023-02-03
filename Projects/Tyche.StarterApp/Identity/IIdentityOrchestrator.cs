@@ -5,5 +5,5 @@ namespace Tyche.StarterApp.Identity;
 
 public interface IIdentityOrchestrator
 {
-    public Task<ClaimsPrincipal?> Authenticate(User user, string password, CancellationToken ct = default);
+    public Task<ClaimsPrincipal?> Authenticate(string email, string password, CancellationToken ct = default);
 }
