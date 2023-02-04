@@ -42,14 +42,17 @@ Unit tests for the business logic can be found under `Tyche.StarterApp.Tests` an
 **Storage**  
 Tyche uses Azure BlobStorage and a Key-Value like approach to storing data, however you are not limited to using azure blob storage if you dont want to! You can just create your own implementation of `IStorageClient` and use whatever database you want under the hood.
 
+**Events**  
+Tyche comes with a lightweight event dispatcher that facilitates communication between modules, simply add the handler to the ioc container using the `serviceCollection.RegisterEventHandler<TEvent, TImplementation>` extension method and inject `IEventDispatcher` to start sending events.
+
 ## Roadmap 🗺
 points that are ~~striked out~~ is finished
 - **Accounts**
   - ~~Support accounts with multiple users attached to them~~
+  - Create new accounts
+  - Add / Remove Users on an account
   - Users can have roles assigned and revoked by account admin
-  - Invite new users to account using email
-  - Self-service password resett using email
-- **Authentication**
+- **Identity**
   - Authentication setup that protects all endpoints by default
   - Track logins, freeze account if login from unknown ip
   - Supports opening specific endpoints for specific user roles
@@ -61,6 +64,8 @@ points that are ~~striked out~~ is finished
 - **Integrations**
   - Email integration interface with at least 1 implementation for a 3rd party provider.
   - Subscription integration
+- **Events**
+  - ~~Communication between modules should happen through a lightweight event system.~~
 - **Front-end**
   - Basic React.js setup with:
     - protected routes
