@@ -10,6 +10,6 @@ public static class Installer
             .AddInMemoryVariable("StorageAccount", $"{nameof(AccountStorageSettings)}:{nameof(AccountStorageSettings.ConnectionString)}")
             .AddInMemoryVariable("StorageAccount", $"{nameof(UserStorageSettings)}:{nameof(UserStorageSettings.ConnectionString)}");
 
-        return services.AddAccountComponent(componentConfiguration);
+        return services.AddAccountModule(componentConfiguration);
     }
 }

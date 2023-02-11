@@ -8,7 +8,7 @@ namespace Tyche.StarterApp.Account;
 
 public static class Installer
 {
-    public static IServiceCollection AddAccountComponent(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddAccountModule(this IServiceCollection services, IConfiguration configuration)
     {
         return services
             .AddStorageClient<AccountStorageSettings>(configuration)
