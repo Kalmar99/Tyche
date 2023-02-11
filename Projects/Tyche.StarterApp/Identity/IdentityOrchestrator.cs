@@ -21,7 +21,7 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
         _eventDispatcher = eventDispatcher;
     }
 
-    public async Task<ClaimsPrincipal?> Authenticate(string email, string password, CancellationToken ct = default)
+    public async Task<ClaimsPrincipal?> Authenticate(string email, string password, string scheme, CancellationToken ct = default)
     {
         var identity = await _repository.Get(email, ct);
         
@@ -34,11 +34,11 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
 
         var claims = new List<Claim>()
         {
-            new("user-role", identity.Role.ToString()),
-            new("user-id", identity.Key)
+            new(ClaimTypes.Role, identity.Role.ToString()),
+            new(ClaimTypes.Sid, identity.Key)
         };
 
-        var claimsIdentity = new ClaimsIdentity(claims);
+        var claimsIdentity = new ClaimsIdentity(claims, scheme);
         
         return new ClaimsPrincipal(claimsIdentity);
     }

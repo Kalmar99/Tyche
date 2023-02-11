@@ -1,4 +1,5 @@
-﻿using Tyche.StarterApp.Shared.HashManager;
+﻿using Tyche.StarterApp.Shared.EventDispatcher;
+using Tyche.StarterApp.Shared.HashManager;
 
 namespace Tyche.StarterApp.Shared;
 
@@ -8,6 +9,8 @@ public static class Installer
     {
         var hashManagerConfig = configuration.AddInMemoryVariable("SaltStorageAccount", $"{nameof(SaltStorageSettings)}:{nameof(SaltStorageSettings.ConnectionString)}");
 
-        return services.AddHashManager(hashManagerConfig);
+        return services
+            .AddHashManager(hashManagerConfig)
+            .AddEvents();
     }
 }

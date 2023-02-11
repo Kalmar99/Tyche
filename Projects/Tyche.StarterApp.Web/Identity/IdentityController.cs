@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Identity;
 
@@ -22,7 +25,7 @@ public class IdentityController : ControllerBase
             return BadRequest();
         }
 
-        var claimsPrincipal = await _orchestrator.Authenticate(dto.Email, dto.Password, ct);
+        var claimsPrincipal = await _orchestrator.Authenticate(dto.Email, dto.Password, CookieAuthenticationDefaults.AuthenticationScheme, ct);
 
         if (claimsPrincipal == null)
         {
@@ -44,6 +47,8 @@ public class IdentityController : ControllerBase
             return BadRequest();
         }
 
+        var context = HttpContext;
+        
         await _orchestrator.Register(dto, ct);
 
         return NoContent();
