@@ -35,4 +35,17 @@ public class IdentityController : ControllerBase
         
         return NoContent();
     }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterDto dto, CancellationToken ct = default)
+    {
+        if (dto.IsInvalid())
+        {
+            return BadRequest();
+        }
+
+        await _orchestrator.Register(dto, ct);
+
+        return NoContent();
+    }
 }
