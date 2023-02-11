@@ -58,7 +58,7 @@ points that are ~~striked out~~ is finished
   - ~~Let users log in~~
     - ~~Should use cookie based authentication~~
     - ~~Allow restricting access to specific endpoints to specific identity roles~~
-  - (#5) Listen to `UserInvitedEvent` and send a invite email to a email that has been added as a user to an account.
+  - [Listen to `UserInvitedEvent` and send a invite email to a email that has been added as a user to an account.](https://github.com/Kalmar99/Tyche/issues/5)
     - Allow Invited emails to create a user attached to a specific accountId
   - Track logins, freeze account if login from unknown ip
 - **Account Module**
@@ -79,5 +79,5 @@ points that are ~~striked out~~ is finished
     - login / signup pages
     - user page that allows user to edit certain details like password reset.
 - **Integrations**
-  - (#4) Email integration interface with at least 1 implementation for a 3rd party provider.
+  - [Email integration interface with at least 1 implementation for a 3rd party provider.](https://github.com/Kalmar99/Tyche/issues/4)
 
