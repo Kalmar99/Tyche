@@ -9,13 +9,13 @@ internal static class AccountMapper
     {
         var users = userStorableEntities.Select(UserMapper.Map).ToList();
 
-        return new Account(accountStorableEntity.Id, users, accountStorableEntity.Name, accountStorableEntity.IsCompanyAccount);
+        return new Account(accountStorableEntity.Id, users, accountStorableEntity.Name);
     }
 
     public static AccountStorableEntity Map(Account account)
     {
         var userIds = account.Users.Select(u => Md5Hash.Generate(u.Email)).ToList();
         
-        return new AccountStorableEntity(account.Id, userIds, account.Name, account.IsCompanyAccount);
+        return new AccountStorableEntity(account.Id, userIds, account.Name);
     }
 }

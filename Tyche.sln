@@ -9,6 +9,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6482D7BA-BEA5-4D21-B6E1-10479010509A}"
 	ProjectSection(SolutionItems) = preProject
 		readme.md = readme.md
+		SolutionItems\Architecture.drawio = SolutionItems\Architecture.drawio
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tyche.StarterApp", "Projects\Tyche.StarterApp\Tyche.StarterApp.csproj", "{2B18D4FD-C541-4D2C-9200-1A898BC11B1D}"

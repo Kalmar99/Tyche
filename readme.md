@@ -7,8 +7,9 @@ Authentication & Authorization solution and crucial services like password reset
 ## Getting Started 🚀
 1. make sure you have .NET 6 sdk installed, you can [find it here](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
 2. add configuration to appsettings.json, when developing locally you can set storage connection strings to `UseDevelopmentStorage=true` and use [azurite](https://github.com/Azure/Azurite) to emulate azure blob storage
-3. open the solution in Visual Studio or Rider and you are good to go.
+3. open the solution in Visual Studio or Rider and you are good to go.  
 
+*In order to run integration tests you need to have docker installed, you can [get it here](https://www.docker.com/)*
 
 ## Configuration 🔧
 You need to set some environment variables, your `appsettings.json` should follow this structure:
@@ -23,7 +24,8 @@ You need to set some environment variables, your `appsettings.json` should follo
     }
   },
   "AllowedHosts": "*",
-  "StorageAccount": "AzureStorageAccountConnectionString"
+  "StorageAccount": "AzureStorageAccountConnectionString",
+  "SaltStorageAccount": "AzureStorageAccountConnectionString"
 }
 ```
 
@@ -42,28 +44,40 @@ Unit tests for the business logic can be found under `Tyche.StarterApp.Tests` an
 **Storage**  
 Tyche uses Azure BlobStorage and a Key-Value like approach to storing data, however you are not limited to using azure blob storage if you dont want to! You can just create your own implementation of `IStorageClient` and use whatever database you want under the hood.
 
+**Events**  
+Tyche comes with a lightweight event dispatcher that facilitates communication between modules, simply add the handler to the ioc container using the `serviceCollection.RegisterEventHandler<TEvent, TImplementation>` extension method and inject `IEventDispatcher` to start sending events.
+
+**Architecture Diagram**
+![architecture](./SolutionItems/Architecture.png)
+
 ## Roadmap 🗺
 points that are ~~striked out~~ is finished
-- **Accounts**
-  - ~~Support accounts with multiple users attached to them~~
-  - Users can have roles assigned and revoked by account admin
-  - Invite new users to account using email
-  - Self-service password resett using email
-- **Authentication**
-  - Authentication setup that protects all endpoints by default
+- **Identity Module**
+  - ~~Let users register an account~~
+    - ~~Should dispatch a `IdentityRegisteredEvent` event to `Account Module` telling it to create a account for a newly registered identity.~~
+  - ~~Let users log in~~
+    - ~~Should use cookie based authentication~~
+    - ~~Allow restricting access to specific endpoints to specific identity roles~~
+  - Listen to `UserInvitedEvent` and send a invite email to a email that has been added as a user to an account.
+  - Allow Invited emails to create a user attached to a specific accountId
   - Track logins, freeze account if login from unknown ip
-  - Supports opening specific endpoints for specific user roles
-- **Customer Service**
-  - Bare bones customer service portal that features:
-    - Tool to resett password for a user
-    - Tool to log in as said user.
-    - Tool to lock / unlock accounts
-- **Integrations**
-  - Email integration interface with at least 1 implementation for a 3rd party provider.
-  - Subscription integration
+- **Account Module**
+  - ~~Listen to `IdentityRegisteredEvent` and create an account when a new identity is created.~~
+  - Allow account admin to disable a user on the account
+  - Allow account admin to invite users
+    - Should dispatch a `UserInvitedEvent`
+- **Customer Service Module**
+- Bare bones customer service portal that features:
+  - Tool to resett password for a user
+  - Tool to log in as said user.
+  - Tool to lock / unlock accounts
+- **Events**
+  - ~~Communication between modules should happen through a lightweight event system.~~
 - **Front-end**
   - Basic React.js setup with:
     - protected routes
     - login / signup pages
     - user page that allows user to edit certain details like password reset.
+- **Integrations**
+  - Email integration interface with at least 1 implementation for a 3rd party provider.
 

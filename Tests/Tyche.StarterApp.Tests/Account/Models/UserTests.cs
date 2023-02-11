@@ -17,7 +17,6 @@ public class UserTests
         // Assert
         Assert.Equal(UserRole.Disabled, user.Role);
         Assert.Equal("Disabled User", user.Name);
-        Assert.Empty(user.Password);
         Assert.Empty(user.Email);
     }
 }

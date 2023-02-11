@@ -2,12 +2,11 @@
 
 public class UserDto
 {
-    public UserDto(string id, string name, string email, string password, UserRole role, string accountId)
+    public UserDto(string id, string name, string email, UserRole role, string accountId)
     {
         Id = id;
         Name = name;
         Email = email;
-        Password = password;
         Role = role;
         AccountId = accountId;
     }
@@ -18,8 +17,6 @@ public class UserDto
     
     public string Email { get; }
 
-    public string Password { get; }
-
     public UserRole Role { get; }
 
     public string AccountId { get; }
@@ -27,13 +24,12 @@ public class UserDto
     public bool IsInvalid() =>
         string.IsNullOrEmpty(Name) ||
         string.IsNullOrEmpty(Email) ||
-        string.IsNullOrEmpty(Password) ||
         string.IsNullOrEmpty(AccountId);
 }
 
 public enum UserRole
 {
     User = 0,
-    AccountAdmin = 0,
-    Disabled,
+    AccountAdmin = 1,
+    Disabled = 2,
 }

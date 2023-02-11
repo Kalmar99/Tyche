@@ -13,31 +13,7 @@ public class AccountController : ControllerBase
         _orchestrator = orchestrator;
         _logger = logger;
     }
-    
-    [HttpPost]
-    public async Task<IActionResult> Add([FromBody] AddAccountRequestDto dto, CancellationToken ct = default)
-    {
-        if (dto.IsInvalid())
-        {
-            return BadRequest();
-        }
-        
-        //TODO: add  authentication
-        
-        try
-        {
-            await _orchestrator.Create(dto.Account!, dto.User!, ct);
 
-            return NoContent();
-        }
-        catch (Exception exception)
-        {
-            _logger.LogError(exception, "failed to create account");
-
-            return StatusCode(500);
-        }
-    }
-    
     [HttpPost("users")]
     public async Task<IActionResult> AddUser([FromBody] UserDto dto, CancellationToken ct = default)
     {

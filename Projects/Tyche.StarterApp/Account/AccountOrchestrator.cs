@@ -9,11 +9,6 @@ internal class AccountOrchestrator : IAccountOrchestrator
         _accountService = accountService;
     }
     
-    public async Task<Account> Get(string accountId, CancellationToken ct = default)
-    {
-        return await _accountService.Get(accountId, ct);
-    }
-
     public async Task<string> Create(AccountDto dto, UserDto userDto, CancellationToken ct = default)
     {
         var account = AccountFactory.Create(dto, userDto);
@@ -26,8 +21,10 @@ internal class AccountOrchestrator : IAccountOrchestrator
     public async Task AttachUser (UserDto userDto, CancellationToken ct = default)
     {
         var account = await _accountService.Get(userDto.AccountId, ct);
+
+        var user =  UserFactory.Create(userDto.Name, userDto.Email, userDto.Role, userDto.AccountId);
         
-        account.AddUser(userDto.Name, userDto.Email, userDto.Password);
+        account.AddUser(user);
 
         await _accountService.Update(account, ct);
     }

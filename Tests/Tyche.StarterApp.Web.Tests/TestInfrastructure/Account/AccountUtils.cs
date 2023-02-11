@@ -19,13 +19,14 @@ internal class AccountUtils
     public async Task<string> CreateAccount()
     {
         using var scope = _api.Services.CreateScope();
-        var orchestrator =  scope.ServiceProvider.GetService<IAccountOrchestrator>();
         
-        var account = new AccountDto(new List<UserDto>(), "test", true);
+        var accountService =  scope.ServiceProvider.GetService<AccountService>();
 
-        var userDto = new UserDto(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), UserRole.AccountAdmin, string.Empty);
+        var account = AccountFactory.Create(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
 
-        return await orchestrator!.Create(account, userDto);
+        await accountService!.Update(account);
+
+        return account.Id;
     }
     
     public async Task<UserDto> CreateUser()
@@ -35,7 +36,7 @@ internal class AccountUtils
 
         var accountId = await CreateAccount();
 
-        var userDto = new UserDto(Md5Hash.Generate("testuser@example.com"), Guid.NewGuid().ToString(), "testuser@example.com", Guid.NewGuid().ToString(), UserRole.User, accountId);
+        var userDto = new UserDto(Md5Hash.Generate("testuser@example.com"), Guid.NewGuid().ToString(), "testuser@example.com", UserRole.User, accountId);
 
         await orchestrator!.AttachUser(userDto);
 

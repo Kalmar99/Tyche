@@ -2,14 +2,13 @@
 
 namespace Tyche.StarterApp.Account;
 
-public class Account
+internal class Account
 {
-    public Account(string id, List<User> users, string name, bool isCompanyAccount)
+    public Account(string id, List<User> users, string name)
     {
         Id = id;
         Users = users;
         Name = name;
-        IsCompanyAccount = isCompanyAccount;
     }
     
     public string Id { get; }
@@ -18,12 +17,8 @@ public class Account
     
     public string Name { get; }
 
-    public bool IsCompanyAccount { get; }
-
-    public void AddUser(string name, string email, string password)
+    public void AddUser(User user)
     {
-        var user = new User(name, email, password, UserRole.User, Id);
-        
         Users.Add(user);
     }
 
