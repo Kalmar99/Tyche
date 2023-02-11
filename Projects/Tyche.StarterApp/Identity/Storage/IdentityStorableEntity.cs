@@ -1,8 +1,8 @@
 ﻿using Tyche.StarterApp.Shared.StorageClient;
 
-namespace Tyche.StarterApp.Identity.Storage;
+namespace Tyche.StarterApp.Identity;
 
-public class IdentityStorableEntity : StorageEntity
+internal class IdentityStorableEntity : StorageEntity
 {
     public IdentityStorableEntity(string key, string email, string password, string name, IdentityRole role) : base(key, null)
     {

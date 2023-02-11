@@ -1,9 +1,6 @@
-﻿using Tyche.StarterApp.Account;
-using Tyche.StarterApp.Shared.HashManager;
+﻿namespace Tyche.StarterApp.Account;
 
-namespace Tyche.StarterApp.Shared;
-
-public class User
+internal class User
 {
     public User(string id, string name, string email, UserRole role, string accountId)
     {

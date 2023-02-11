@@ -2,9 +2,9 @@
 using Tyche.StarterApp.Shared;
 using Tyche.StarterApp.Shared.StorageClient;
 
-namespace Tyche.StarterApp.Identity.Storage;
+namespace Tyche.StarterApp.Identity;
 
-public class IdentityRepository
+internal class IdentityRepository
 {
     private readonly IStorageClient<IdentityStorageSettings> _storageClient;
     private readonly ILogger<IdentityRepository> _logger;

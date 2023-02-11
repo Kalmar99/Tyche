@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Identity;
 

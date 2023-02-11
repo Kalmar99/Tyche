@@ -1,19 +1,17 @@
 ﻿using System.Security.Claims;
-using Tyche.StarterApp.Identity.Storage;
 using Tyche.StarterApp.Shared;
 using Tyche.StarterApp.Shared.EventDispatcher;
-using Tyche.StarterApp.Shared.HashManager;
 
 namespace Tyche.StarterApp.Identity;
 
 internal class IdentityOrchestrator : IIdentityOrchestrator
 {
-    private readonly IHashManager _hashManager;
+    private readonly HashManager _hashManager;
     private readonly IdentityStorableEntityFactory _storableEntityFactory;
     private readonly IdentityRepository _repository;
     private readonly IEventDispatcher _eventDispatcher;
 
-    public IdentityOrchestrator(IdentityStorableEntityFactory storableEntityFactory, IdentityRepository repository, IEventDispatcher eventDispatcher, IHashManager hashManager)
+    public IdentityOrchestrator(IdentityStorableEntityFactory storableEntityFactory, IdentityRepository repository, IEventDispatcher eventDispatcher, HashManager hashManager)
     {
         _hashManager = hashManager;
         _storableEntityFactory = storableEntityFactory;

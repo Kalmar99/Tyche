@@ -1,8 +1,6 @@
-﻿using Tyche.StarterApp.Shared.SecureHasher;
+﻿namespace Tyche.StarterApp.Identity;
 
-namespace Tyche.StarterApp.Shared.HashManager;
-
-internal class HashManager : IHashManager
+internal class HashManager
 {
     private readonly SaltRepository _repository;
 

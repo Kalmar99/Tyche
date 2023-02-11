@@ -1,6 +1,6 @@
 ﻿using Tyche.StarterApp.Shared.StorageClient;
 
-namespace Tyche.StarterApp.Shared.HashManager;
+namespace Tyche.StarterApp.Identity;
 
 public class SaltStorageSettings : IStorageSettings
 {

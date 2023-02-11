@@ -2,7 +2,7 @@
 
 namespace Tyche.StarterApp.Account;
 
-public static class UserFactory
+internal static class UserFactory
 {
     public static User Create(string name, string email, UserRole role, string accountId)
     {

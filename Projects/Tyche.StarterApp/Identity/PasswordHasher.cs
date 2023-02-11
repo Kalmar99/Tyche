@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 
-namespace Tyche.StarterApp.Shared.HashManager;
+namespace Tyche.StarterApp.Identity;
 
 internal static class PasswordHasher
 {

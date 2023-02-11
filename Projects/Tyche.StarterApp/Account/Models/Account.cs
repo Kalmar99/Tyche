@@ -2,7 +2,7 @@
 
 namespace Tyche.StarterApp.Account;
 
-public class Account
+internal class Account
 {
     public Account(string id, List<User> users, string name)
     {

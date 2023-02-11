@@ -1,6 +1,6 @@
 ﻿using Tyche.StarterApp.Shared.StorageClient;
 
-namespace Tyche.StarterApp.Shared.SecureHasher;
+namespace Tyche.StarterApp.Identity;
 
 public class SaltStorableEntity : StorageEntity
 {

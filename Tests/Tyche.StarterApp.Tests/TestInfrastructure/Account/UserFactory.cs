@@ -4,7 +4,7 @@ using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Tests.Account;
 
-public static class UserFactory
+internal static class UserFactory
 {
     public static User Create()
     {

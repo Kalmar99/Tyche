@@ -1,6 +1,6 @@
 ﻿using Tyche.StarterApp.Shared.StorageClient;
 
-namespace Tyche.StarterApp.Identity.Storage;
+namespace Tyche.StarterApp.Identity;
 
 public class IdentityStorageSettings : IStorageSettings
 {

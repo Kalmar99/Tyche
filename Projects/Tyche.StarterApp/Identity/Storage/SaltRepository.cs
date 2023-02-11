@@ -1,8 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using Tyche.StarterApp.Shared.HashManager;
 using Tyche.StarterApp.Shared.StorageClient;
 
-namespace Tyche.StarterApp.Shared.SecureHasher;
+namespace Tyche.StarterApp.Identity;
 
 public class SaltRepository
 {

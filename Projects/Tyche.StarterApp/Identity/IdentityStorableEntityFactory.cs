@@ -1,14 +1,12 @@
-﻿using Tyche.StarterApp.Identity.Storage;
-using Tyche.StarterApp.Shared;
-using Tyche.StarterApp.Shared.HashManager;
+﻿using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Identity;
 
-public class IdentityStorableEntityFactory
+internal class IdentityStorableEntityFactory
 {
-    private readonly IHashManager _hashManager;
+    private readonly HashManager _hashManager;
 
-    public IdentityStorableEntityFactory(IHashManager hashManager)
+    public IdentityStorableEntityFactory(HashManager hashManager)
     {
         _hashManager = hashManager;
     }
