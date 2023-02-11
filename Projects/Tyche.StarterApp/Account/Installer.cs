@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Tyche.StarterApp.Shared;
+using Tyche.StarterApp.Shared.EventDispatcher;
 using Tyche.StarterApp.Shared.StorageClient;
 
 namespace Tyche.StarterApp.Account;
@@ -14,6 +16,7 @@ public static class Installer
             .AddScoped<AccountRepository>()
             .AddScoped<UserRepository>()
             .AddScoped<AccountService>()
+            .RegisterEventHandler<IdentityRegisteredEvent, AccountEventHandler>()
             .AddScoped<IAccountOrchestrator, AccountOrchestrator>();
     }
 }
