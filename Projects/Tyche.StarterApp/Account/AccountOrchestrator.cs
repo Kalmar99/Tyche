@@ -3,14 +3,10 @@
 internal class AccountOrchestrator : IAccountOrchestrator
 {
     private readonly AccountService _accountService;
-    private readonly AccountFactory _accountFactory;
-    private readonly UserFactory _userFactory;
 
-    public AccountOrchestrator(AccountService accountService, AccountFactory accountFactory, UserFactory userFactory)
+    public AccountOrchestrator(AccountService accountService)
     {
         _accountService = accountService;
-        _accountFactory = accountFactory;
-        _userFactory = userFactory;
     }
     
     public async Task<Account> Get(string accountId, CancellationToken ct = default)
@@ -20,7 +16,7 @@ internal class AccountOrchestrator : IAccountOrchestrator
 
     public async Task<string> Create(AccountDto dto, UserDto userDto, CancellationToken ct = default)
     {
-        var account = await _accountFactory.Create(dto, userDto, ct);
+        var account = AccountFactory.Create(dto, userDto);
 
         await _accountService.Update(account, ct);
 
@@ -31,7 +27,7 @@ internal class AccountOrchestrator : IAccountOrchestrator
     {
         var account = await _accountService.Get(userDto.AccountId, ct);
 
-        var user = await _userFactory.Create(userDto.Name, userDto.Email, userDto.Password, userDto.Role, userDto.AccountId, ct);
+        var user =  UserFactory.Create(userDto.Name, userDto.Email, userDto.Role, userDto.AccountId);
         
         account.AddUser(user);
 

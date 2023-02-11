@@ -7,6 +7,6 @@ public static class UserDtoFactory
 {
     public static UserDto Create()
     {
-        return new UserDto(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "test@example.com", Guid.NewGuid().ToString(), UserRole.User, Guid.NewGuid().ToString());
+        return new UserDto(Guid.NewGuid().ToString(), Guid.NewGuid().ToString(), "test@example.com", UserRole.User, Guid.NewGuid().ToString());
     }
 }

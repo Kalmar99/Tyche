@@ -4,12 +4,11 @@ namespace Tyche.StarterApp.Account;
 
 public class Account
 {
-    public Account(string id, List<User> users, string name, bool isCompanyAccount)
+    public Account(string id, List<User> users, string name)
     {
         Id = id;
         Users = users;
         Name = name;
-        IsCompanyAccount = isCompanyAccount;
     }
     
     public string Id { get; }
@@ -17,8 +16,6 @@ public class Account
     public List<User> Users { get; }
     
     public string Name { get; }
-
-    public bool IsCompanyAccount { get; }
 
     public void AddUser(User user)
     {

@@ -99,6 +99,6 @@ internal class UserRepository
 
     private UserStorableEntity MapToEntity(UserDto userDto, string key)
     {
-        return new UserStorableEntity(key, userDto.Name, userDto.Email, userDto.Password, userDto.Role, userDto.AccountId);
+        return new UserStorableEntity(key, userDto.Name, userDto.Email, userDto.Role, userDto.AccountId);
     }
 }

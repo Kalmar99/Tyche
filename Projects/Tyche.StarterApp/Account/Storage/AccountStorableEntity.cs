@@ -6,12 +6,11 @@ namespace Tyche.StarterApp.Account;
 internal class AccountStorableEntity : StorageEntity
 {
     [JsonConstructor]
-    public AccountStorableEntity(string id,List<string> users, string name, bool isCompanyAccount) 
+    public AccountStorableEntity(string id,List<string> users, string name) 
         : base(id)
     {
         Users = users;
         Name = name;
-        IsCompanyAccount = isCompanyAccount;
         Id = id;
     }
 
@@ -20,6 +19,4 @@ internal class AccountStorableEntity : StorageEntity
     public List<string> Users { get; }
 
     public string Name { get; }
-
-    public bool IsCompanyAccount { get; }
 }

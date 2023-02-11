@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Tyche.StarterApp.Shared.EventDispatcher;
@@ -44,7 +44,7 @@ public class EventDispatcherTests
         _eventDispatcher.Dispatch(@event);
         
         // Assert
-        _handler.Verify(h => h.Handle(It.IsAny<MockEvent>()));
+        _handler.Verify(h => h.Handle(It.IsAny<MockEvent>(), It.IsAny<CancellationToken>()));
         _handler.VerifyNoOtherCalls();
         _wrongHandler.VerifyNoOtherCalls();
     }

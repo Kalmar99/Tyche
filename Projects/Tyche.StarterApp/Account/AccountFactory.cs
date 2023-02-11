@@ -2,22 +2,26 @@
 
 namespace Tyche.StarterApp.Account;
 
-internal class AccountFactory
+internal static class AccountFactory
 {
-    private readonly UserFactory _userFactory;
-
-    public AccountFactory(UserFactory userFactory)
-    {
-        _userFactory = userFactory;
-    }
-    
-    public async Task<Account> Create(AccountDto accountDto, UserDto userDto, CancellationToken ct = default)
+    public static Account Create(AccountDto accountDto, UserDto userDto)
     {
         var accountId = Guid.NewGuid().ToString();
         
-        var user = await _userFactory.Create(userDto.Name, userDto.Email, userDto.Password, UserRole.AccountAdmin, accountId, ct);
+        var user = UserFactory.Create(userDto.Name, userDto.Email, UserRole.AccountAdmin, accountId);
         
-        var account = new Account(accountId, new List<User>() { user }, accountDto.Name, accountDto.IsCompanyAccount);
+        var account = new Account(accountId, new List<User>() { user }, accountDto.Name);
+        
+        return account;
+    }
+    
+    public static Account Create(string accountName, string userName, string userEmail)
+    {
+        var accountId = Guid.NewGuid().ToString();
+        
+        var user = UserFactory.Create(userName, userEmail, UserRole.AccountAdmin, accountId);
+        
+        var account = new Account(accountId, new List<User>() { user }, accountName);
         
         return account;
     }
