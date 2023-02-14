@@ -24,10 +24,20 @@ You need to set some environment variables, your `appsettings.json` should follo
     }
   },
   "AllowedHosts": "*",
-  "StorageAccount": "AzureStorageAccountConnectionString",
-  "SaltStorageAccount": "AzureStorageAccountConnectionString"
+  "StorageAccount": "UseDevelopmentStorage=true",
+  "SaltStorageAccount": "UseDevelopmentStorage=true",
+  "EmailSettings": {
+    "Username": "",
+    "Password": "",
+    "SmtpServer": "127.0.0.1",
+    "SmtpPort": "25",
+    "SenderEmail": "noreply@tyche.com",
+    "isDevelopment": true
+  }
 }
 ```
+
+*If you need a SMTP server for local testing, check out [Papercut](https://github.com/ChangemakerStudios/Papercut-SMTP)*
 
 ## Contribution Guidelines 📜
 The project is currently not open for contributions but will be in the future when the basic features such as user management and authentication etc is in a more finished state.
@@ -79,5 +89,5 @@ points that are ~~striked out~~ is finished
     - login / signup pages
     - user page that allows user to edit certain details like password reset.
 - **Integrations**
-  - [Email integration interface with at least 1 implementation for a 3rd party provider.](https://github.com/Kalmar99/Tyche/issues/4)
+  - ~~[Create email client](https://github.com/Kalmar99/Tyche/issues/4)~~
 

@@ -12,14 +12,16 @@ public class EmailSettings
 
     public string SenderEmail { get; set; }
 
+    public bool IsDevelopment { get; set; }
+
     public void Validate()
     {
-        if (string.IsNullOrEmpty(Username))
+        if (Username == null)
         {
             throw new ArgumentNullException($"{nameof(EmailSettings)}:{Username} cannot be null or empty");
         }
         
-        if (string.IsNullOrEmpty(Password))
+        if (Password == null)
         {
             throw new ArgumentNullException($"{nameof(EmailSettings)}:{Password} cannot be null or empty");
         }
