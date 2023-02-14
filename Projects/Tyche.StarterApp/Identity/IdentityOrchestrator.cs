@@ -49,4 +49,22 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
         
         _eventDispatcher.Dispatch(new IdentityRegisteredEvent(entity.Key, dto.AccountName, dto.Name,dto.Email, (int)IdentityRole.AccountAdmin));
     }
+
+    public async Task Invite(string email, string accountId, CancellationToken ct = default)
+    {
+        // 1. Generate a token
+        
+        // 2. Load HTML template
+        
+        // 3. Send Email
+    }
+
+    public async Task Register(string token, RegisterDto dto, CancellationToken ct = default)
+    {
+        // 1. Retrieve token
+        
+        // 2. Check if its valid
+        
+        // 3. create user & dispatch event
+    }
 }
