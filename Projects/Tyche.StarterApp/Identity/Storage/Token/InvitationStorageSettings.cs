@@ -2,17 +2,17 @@
 
 namespace Tyche.StarterApp.Identity.Token;
 
-public class TokenStorageSettings : IStorageSettings
+public class InvitationStorageSettings : IStorageSettings
 {
     public string ConnectionString { get; set; }
 
-    public string ContainerName => "tokens";
+    public string ContainerName => "invitations";
     
     public void Validate()
     {
         if (string.IsNullOrEmpty(ConnectionString))
         {
-            throw new ArgumentNullException($"{nameof(TokenStorageSettings)}:{nameof(ConnectionString)} cannot be null");
+            throw new ArgumentNullException($"{nameof(InvitationStorageSettings)}:{nameof(ConnectionString)} cannot be null");
         }
     }
 }

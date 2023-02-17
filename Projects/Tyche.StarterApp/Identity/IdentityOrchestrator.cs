@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Tyche.StarterApp.Identity.Token;
 using Tyche.StarterApp.Shared;
 using Tyche.StarterApp.Shared.EventDispatcher;
 
@@ -52,8 +53,6 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
 
     public async Task Invite(string email, string accountId, CancellationToken ct = default)
     {
-        // 1. Generate a token
-        
         // 2. Load HTML template
         
         // 3. Send Email

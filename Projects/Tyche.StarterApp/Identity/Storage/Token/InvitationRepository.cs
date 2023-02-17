@@ -3,22 +3,22 @@ using Tyche.StarterApp.Shared.StorageClient;
 
 namespace Tyche.StarterApp.Identity.Token;
 
-public class TokenRepository
+public class InvitationRepository
 {
-    private readonly IStorageClient<TokenStorageSettings> _storageClient;
-    private readonly ILogger<TokenRepository> _logger;
+    private readonly IStorageClient<InvitationStorageSettings> _storageClient;
+    private readonly ILogger<InvitationRepository> _logger;
 
-    public TokenRepository(IStorageClient<TokenStorageSettings> storageClient, ILogger<TokenRepository> logger)
+    public InvitationRepository(IStorageClient<InvitationStorageSettings> storageClient, ILogger<InvitationRepository> logger)
     {
         _storageClient = storageClient;
         _logger = logger;
     }
     
-    public async Task<TokenStorableEntity> Get(string key, CancellationToken ct = default)
+    public async Task<InvitationStorableEntity> Get(string key, CancellationToken ct = default)
     {
         try
         {
-            var entity = await _storageClient.Get<TokenStorableEntity>(key, ct);
+            var entity = await _storageClient.Get<InvitationStorableEntity>(key, ct);
 
             return entity;
         }
@@ -29,7 +29,7 @@ public class TokenRepository
         }
     }
     
-    public virtual async Task Set(TokenStorableEntity entity, CancellationToken ct = default)
+    public virtual async Task Set(InvitationStorableEntity entity, CancellationToken ct = default)
     {
         try
         {
