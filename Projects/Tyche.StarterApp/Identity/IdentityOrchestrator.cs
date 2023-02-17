@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using Tyche.StarterApp.Identity.Token;
 using Tyche.StarterApp.Shared;
+using Tyche.StarterApp.Shared.EmailClient;
 using Tyche.StarterApp.Shared.EventDispatcher;
 
 namespace Tyche.StarterApp.Identity;
@@ -8,15 +9,28 @@ namespace Tyche.StarterApp.Identity;
 internal class IdentityOrchestrator : IIdentityOrchestrator
 {
     private readonly HashManager _hashManager;
+    private readonly IdentitySettings _settings;
+    private readonly IEmailClient _emailClient;
     private readonly IdentityStorableEntityFactory _storableEntityFactory;
     private readonly IdentityRepository _repository;
+    private readonly InvitationRepository _invitationRepository;
     private readonly IEventDispatcher _eventDispatcher;
 
-    public IdentityOrchestrator(IdentityStorableEntityFactory storableEntityFactory, IdentityRepository repository, IEventDispatcher eventDispatcher, HashManager hashManager)
+    public IdentityOrchestrator(
+        IdentityStorableEntityFactory storableEntityFactory,
+        IdentityRepository repository,
+        InvitationRepository invitationRepository,
+        IEventDispatcher eventDispatcher,
+        HashManager hashManager,
+        IdentitySettings settings,
+        IEmailClient emailClient)
     {
         _hashManager = hashManager;
+        _settings = settings;
+        _emailClient = emailClient;
         _storableEntityFactory = storableEntityFactory;
         _repository = repository;
+        _invitationRepository = invitationRepository;
         _eventDispatcher = eventDispatcher;
     }
 
@@ -53,9 +67,13 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
 
     public async Task Invite(string email, string accountId, CancellationToken ct = default)
     {
-        // 2. Load HTML template
-        
-        // 3. Send Email
+        var invite = InvitationStorableEntity.Create(accountId, DateTime.UtcNow.AddDays(7));
+
+        await _invitationRepository.Set(invite, ct);
+
+        var template = await InvitationEmailTemplate.Create(_settings.InvitationUrl, invite.Key, ct);
+
+        await _emailClient.Send(email, template.Subject, template.Html, ct);
     }
 
     public async Task Register(string token, RegisterDto dto, CancellationToken ct = default)
