@@ -17,9 +17,10 @@ public class InvitationEmailTemplate
     {
         var html = await File.ReadAllTextAsync(TemplateFilePath, ct);
 
+        var url = $"{inviteUrl}?invitation={invitationKey}";
+
         var htmlWithValues = html
-            .Replace("{INVITE_KEY}", invitationKey)
-            .Replace("{INVITE_URL}", inviteUrl);
+            .Replace("{INVITE_URL}", url);
 
         return new InvitationEmailTemplate(htmlWithValues);
     }

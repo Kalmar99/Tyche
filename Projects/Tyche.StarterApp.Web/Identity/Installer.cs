@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Tyche.StarterApp.Identity.Token;
 using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Identity;
@@ -10,7 +11,8 @@ public static class Installer
     {
         var componentConfiguration = configuration
             .AddInMemoryVariable("SaltStorageAccount", $"{nameof(SaltStorageSettings)}:{nameof(SaltStorageSettings.ConnectionString)}")
-            .AddInMemoryVariable("StorageAccount", $"{nameof(IdentityStorageSettings)}:{nameof(IdentityStorageSettings.ConnectionString)}");
+            .AddInMemoryVariable("StorageAccount", $"{nameof(IdentityStorageSettings)}:{nameof(IdentityStorageSettings.ConnectionString)}")
+            .AddInMemoryVariable("StorageAccount", $"{nameof(InvitationStorageSettings)}:{nameof(InvitationStorageSettings.ConnectionString)}");
 
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(ConfigureCookieAuthentication);
 

@@ -6,10 +6,11 @@ public class InvitationStorableEntity : StorageEntity
 {
     public InvitationStorableEntity(string accountId, DateTime expires) : base(Guid.NewGuid().ToString())
     {
+        AccountId = accountId;
         Expires = expires;
     }
 
-    public string AccountId { get; set; }
+    public string AccountId { get; }
     
     public DateTime Expires { get; }
 

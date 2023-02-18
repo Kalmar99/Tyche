@@ -15,11 +15,11 @@ internal class EventDispatcher : IEventDispatcher
     {
         using var serviceScope = _serviceProvider.CreateScope();
 
-        var handlers = serviceScope.ServiceProvider.GetService<IEnumerable<IEventHandler<TEvent>>>();
+        var handlers = serviceScope.ServiceProvider.GetService<IEnumerable<IEventHandler<TEvent>>>()?.ToList() ?? new List<IEventHandler<TEvent>>();
 
-        if (handlers == null)
+        if (!handlers.Any())
         {
-            return;
+            throw new Exception($"Found no handlers for event: {typeof(TEvent).Name}");
         }
         
         Dispatch(@event, handlers);

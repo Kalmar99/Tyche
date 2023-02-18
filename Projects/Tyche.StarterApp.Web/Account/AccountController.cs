@@ -14,30 +14,23 @@ public class AccountController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost("users")]
-    public async Task<IActionResult> AddUser([FromBody] UserDto dto, CancellationToken ct = default)
+    [HttpPost("users/invite")]
+    public async Task<IActionResult> AddUser([FromBody] InviteUserRequestDto dto, CancellationToken ct = default)
     {
-        if (dto.IsInvalid())
-        {
-            return BadRequest();
-        }
-        
-        //TODO: add  authentication
-        
         try
         {
-            await _orchestrator.AttachUser(dto, ct);
+            await _orchestrator.InviteUser(dto.Email, dto.AccountId);
 
             return NoContent();
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "failed to add user to account");
+            _logger.LogError(exception, "failed to invite user");
 
             return StatusCode(500);
         }
     }
-    
+
     [HttpDelete("{accountId}/users/{userId}")]
     public async Task<IActionResult> DisableUser([FromRoute] string accountId, [FromRoute] string userId, CancellationToken ct = default)
     {
