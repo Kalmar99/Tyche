@@ -17,6 +17,7 @@ public static class Installer
             .AddScoped<UserRepository>()
             .AddScoped<AccountService>()
             .RegisterEventHandler<IdentityRegisteredEvent, AccountEventHandler>()
+            .RegisterEventHandler<UserRegisteredEvent, AccountEventHandler>()
             .AddScoped<IAccountOrchestrator, AccountOrchestrator>();
     }
 }

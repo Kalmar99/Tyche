@@ -47,10 +47,21 @@ public class IdentityController : ControllerBase
             return BadRequest();
         }
 
-        var context = HttpContext;
-        
         await _orchestrator.Register(dto, ct);
 
+        return NoContent();
+    }
+    
+    [HttpPost("register?invitation={invitation}")]
+    public async Task<IActionResult> Register([FromBody] RegisterDto dto, [FromQuery] string invitation, CancellationToken ct = default)
+    {
+        if (dto.IsInvalid())
+        {
+            return BadRequest();
+        }
+
+        await _orchestrator.Register(invitation, dto, ct);
+    
         return NoContent();
     }
 }

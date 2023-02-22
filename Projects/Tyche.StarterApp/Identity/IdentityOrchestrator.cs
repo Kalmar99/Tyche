@@ -106,10 +106,17 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
 
     public async Task Register(string token, RegisterDto dto, CancellationToken ct = default)
     {
-        // 1. Retrieve token
+        var invite = await _invitationRepository.Get(token, ct);
+
+        if (invite.IsInvalid())
+        {
+            return;
+        }
+
+        var userRegisteredEvent = new UserRegisteredEvent(dto.Email, dto.Name, invite.AccountId);
+
+        _eventDispatcher.Dispatch(userRegisteredEvent);
         
-        // 2. Check if its valid
-        
-        // 3. create user & dispatch event
+        //TODO: delete invite
     }
 }
