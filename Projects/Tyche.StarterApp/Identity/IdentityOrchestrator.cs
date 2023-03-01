@@ -120,7 +120,7 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
         var userRegisteredEvent = new UserRegisteredEvent(dto.Email, dto.Name, invite.AccountId);
 
         _eventDispatcher.Dispatch(userRegisteredEvent);
-        
-        //TODO: delete invite
+
+        await _invitationRepository.Delete(token, ct);
     }
 }

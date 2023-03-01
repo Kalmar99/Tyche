@@ -24,7 +24,7 @@ public class InvitationRepository
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "Failed to get salt with key: {key}", key);
+            _logger.LogError(exception, "Failed to get invitation with key: {key}", key);
             throw;
         }
     }
@@ -38,7 +38,20 @@ public class InvitationRepository
         catch (Exception exception)
         {
             var key = entity.Key;
-            _logger.LogError(exception, "Failed to set salt with key: {key}", key);
+            _logger.LogError(exception, "Failed to set invitation with key: {key}", key);
+            throw;
+        }
+    }
+
+    public virtual async Task Delete(string key, CancellationToken ct = default)
+    {
+        try
+        {
+            await _storageClient.Delete(key, ct);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Failed delete invitation with key: {key}", key);
             throw;
         }
     }
