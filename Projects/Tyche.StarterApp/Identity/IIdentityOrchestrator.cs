@@ -10,5 +10,5 @@ public interface IIdentityOrchestrator
 
     public Task Invite(string email, string accountId, CancellationToken ct = default);
 
-    public Task Register(string token, RegisterDto dto, CancellationToken ct = default);
+    public Task<bool> Register(string token, RegisterDto dto, CancellationToken ct = default);
 }

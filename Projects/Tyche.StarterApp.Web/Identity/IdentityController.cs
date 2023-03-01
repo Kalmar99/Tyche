@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Azure;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,8 +58,13 @@ public class IdentityController : ControllerBase
             return BadRequest();
         }
 
-        await _orchestrator.Register(invitation, dto, ct);
-    
+        var inviteWasValid = await _orchestrator.Register(invitation, dto, ct);
+
+        if (!inviteWasValid)
+        {
+            return Forbid();
+        }
+
         return NoContent();
     }
 }

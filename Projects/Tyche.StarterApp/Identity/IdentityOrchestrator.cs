@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Azure;
 using Microsoft.Extensions.Logging;
 using Tyche.StarterApp.Identity.Token;
 using Tyche.StarterApp.Shared;
@@ -104,23 +105,39 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
         }
     }
 
-    public async Task Register(string token, RegisterDto dto, CancellationToken ct = default)
+    public async Task<bool> Register(string token, RegisterDto dto, CancellationToken ct = default)
     {
-        var invite = await _invitationRepository.Get(token, ct);
-
-        if (invite.IsInvalid())
+        try
         {
-            return;
+            var invite = await _invitationRepository.Get(token, ct);
+
+            if (invite.IsInvalid())
+            {
+                return false;
+            }
+
+            var identity =
+                await _storableEntityFactory.Create(dto.Name, dto.Email, dto.Password, IdentityRole.User, ct);
+
+            await _repository.Set(identity, ct);
+
+            var userRegisteredEvent = new UserRegisteredEvent(dto.Email, dto.Name, invite.AccountId);
+
+            _eventDispatcher.Dispatch(userRegisteredEvent);
+
+            await _invitationRepository.Delete(token, ct);
+
+            return true;
         }
-        
-        var identity = await _storableEntityFactory.Create(dto.Name, dto.Email, dto.Password, IdentityRole.User, ct);
-        
-        await _repository.Set(identity, ct);
-
-        var userRegisteredEvent = new UserRegisteredEvent(dto.Email, dto.Name, invite.AccountId);
-
-        _eventDispatcher.Dispatch(userRegisteredEvent);
-
-        await _invitationRepository.Delete(token, ct);
-    }
+        catch (RequestFailedException exception)
+        {
+            _logger.LogError(exception, "failed to redeem invite for invite: {token}, invite does not exist!", token);
+            return false;
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "failed to redeem invite for invite: {token}", token);
+            throw;
+        }
+    } 
 }
