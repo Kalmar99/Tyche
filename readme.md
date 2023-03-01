@@ -68,14 +68,14 @@ points that are ~~striked out~~ is finished
   - ~~Let users log in~~
     - ~~Should use cookie based authentication~~
     - ~~Allow restricting access to specific endpoints to specific identity roles~~
-  - [Listen to `UserInvitedEvent` and send a invite email to a email that has been added as a user to an account.](https://github.com/Kalmar99/Tyche/issues/5)
-    - Allow Invited emails to create a user attached to a specific accountId
+  - ~~[Listen to `UserInvitedEvent` and send a invite email to a email that has been added as a user to an account.](https://github.com/Kalmar99/Tyche/issues/5)~~
+    - ~~Allow Invited emails to create a user attached to a specific accountId~~
   - Track logins, freeze account if login from unknown ip
 - **Account Module**
   - ~~Listen to `IdentityRegisteredEvent` and create an account when a new identity is created.~~
   - Allow account admin to disable a user on the account
-  - Allow account admin to invite users
-    - Should dispatch a `UserInvitedEvent`
+  - ~~Allow account admin to invite users~~
+    - ~~Should dispatch a `UserInvitedEvent`~~
 - **Customer Service Module**
 - Bare bones customer service portal that features:
   - Tool to resett password for a user

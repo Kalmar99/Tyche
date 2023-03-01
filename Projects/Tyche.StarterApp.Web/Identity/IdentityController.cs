@@ -1,9 +1,7 @@
-﻿using System.Security.Claims;
+﻿using Azure;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Identity;
 
@@ -47,9 +45,25 @@ public class IdentityController : ControllerBase
             return BadRequest();
         }
 
-        var context = HttpContext;
-        
         await _orchestrator.Register(dto, ct);
+
+        return NoContent();
+    }
+    
+    [HttpPost("register-invite")]
+    public async Task<IActionResult> Register([FromBody] RegisterDto dto, [FromQuery] string invitation, CancellationToken ct = default)
+    {
+        if (dto.IsInvalid())
+        {
+            return BadRequest();
+        }
+
+        var inviteWasValid = await _orchestrator.Register(invitation, dto, ct);
+
+        if (!inviteWasValid)
+        {
+            return Forbid();
+        }
 
         return NoContent();
     }
