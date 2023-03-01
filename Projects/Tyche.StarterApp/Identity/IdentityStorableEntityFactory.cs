@@ -19,4 +19,13 @@ internal class IdentityStorableEntityFactory
         
         return new IdentityStorableEntity(id, email, passwordHash, name, IdentityRole.AccountAdmin);
     }
+
+    public async Task<IdentityStorableEntity> Create(string name, string email, string password, IdentityRole role,  CancellationToken ct = default)
+    {
+        var id = Md5Hash.Generate(email);
+        
+        var passwordHash = await _hashManager.GeneratePasswordHash(password, id, ct);
+        
+        return new IdentityStorableEntity(id, email, passwordHash, name, role);
+    }
 }

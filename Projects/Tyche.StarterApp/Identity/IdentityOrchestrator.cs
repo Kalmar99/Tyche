@@ -64,7 +64,7 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
         catch (Exception exception)
         {
             _logger.LogError(exception, "failed to create authentication claims");
-            throw;
+            return null;
         }
     }
 
@@ -112,6 +112,10 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
         {
             return;
         }
+        
+        var identity = await _storableEntityFactory.Create(dto.Name, dto.Email, dto.Password, IdentityRole.User, ct);
+        
+        await _repository.Set(identity, ct);
 
         var userRegisteredEvent = new UserRegisteredEvent(dto.Email, dto.Name, invite.AccountId);
 

@@ -26,5 +26,7 @@ internal class AccountEventHandler : IEventHandler<IdentityRegisteredEvent>, IEv
         var user = UserFactory.Create(@event.Name, @event.Email, UserRole.User, @event.AccountId);
         
         account.AddUser(user);
+
+        await _accountService.Update(account, ct);
     }
 }

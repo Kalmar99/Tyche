@@ -49,7 +49,7 @@ public class IdentityController : ControllerBase
         return NoContent();
     }
     
-    [HttpPost("register?invitation={invitation}")]
+    [HttpPost("register-invite")]
     public async Task<IActionResult> Register([FromBody] RegisterDto dto, [FromQuery] string invitation, CancellationToken ct = default)
     {
         if (dto.IsInvalid())
