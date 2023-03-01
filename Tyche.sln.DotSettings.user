@@ -1,0 +1,14 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=0b72e7b2_002D4fc1_002D4b94_002Da4df_002Daa48a0576b31/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AccountControllerTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;Or&gt;&#xD;
+    &lt;Project Location="C:\Users\jkr99\RiderProjects\Tyche\Tests\Tyche.StarterApp.Web.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Tyche.StarterApp.Web.Tests&amp;gt;" /&gt;&#xD;
+    &lt;TestAncestor&gt;&#xD;
+      &lt;TestId&gt;xUnit::C7F980D7-550C-4003-8AFB-4A14F9E8F480::net6.0::Tyche.StarterApp.Tests.Shared.Md5HashTests.Generate_ShouldGenerate_CorrectHash&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::C7F980D7-550C-4003-8AFB-4A14F9E8F480::net6.0::Tyche.StarterApp.Tests.Account.AccountOrchestratorTests.Create_ShouldCreateAccount&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::C7F980D7-550C-4003-8AFB-4A14F9E8F480::net6.0::Tyche.StarterApp.Tests.Account.AccountTests.AddUser_ShouldAdd_User&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::C7F980D7-550C-4003-8AFB-4A14F9E8F480::net6.0::Tyche.StarterApp.Tests.Account.AccountTests.DisableUser_ShouldSetUserInfo_ToDisabled&lt;/TestId&gt;&#xD;
+      &lt;TestId&gt;xUnit::C7F980D7-550C-4003-8AFB-4A14F9E8F480::net6.0::Tyche.StarterApp.Tests.Account.UserTests.Disable_ShouldSetUserInfo_ToDisabled&lt;/TestId&gt;&#xD;
+    &lt;/TestAncestor&gt;&#xD;
+    &lt;Project Location="C:\Users\jkr99\RiderProjects\Tyche\Tests\Tyche.StarterApp.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;Tyche.StarterApp.Tests&amp;gt;" /&gt;&#xD;
+  &lt;/Or&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
