@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Account;
 
@@ -15,7 +17,8 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("users/invite")]
-    public async Task<IActionResult> AddUser([FromBody] InviteUserRequestDto dto, CancellationToken ct = default)
+    [Authorize(Policy = AuthenticationPolicies.AccountAdmin)]
+    public async Task<IActionResult> InviteUser([FromBody] InviteUserRequestDto dto, CancellationToken ct = default)
     {
         try
         {
@@ -32,6 +35,7 @@ public class AccountController : ControllerBase
     }
 
     [HttpDelete("{accountId}/users/{userId}")]
+    [Authorize(Policy = AuthenticationPolicies.AccountAdmin)]
     public async Task<IActionResult> DisableUser([FromRoute] string accountId, [FromRoute] string userId, CancellationToken ct = default)
     {
         if (string.IsNullOrEmpty(userId))
