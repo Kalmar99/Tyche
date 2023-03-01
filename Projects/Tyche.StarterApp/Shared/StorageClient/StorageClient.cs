@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Azure.Storage.Blobs.Models;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Tyche.StarterApp.Shared.StorageClient;
@@ -62,6 +63,21 @@ internal class StorageClient<TSettings> : IStorageClient<TSettings> where TSetti
         catch (Exception e)
         {
             _logger.LogError(e, "Failed to get entity: {key}", key);
+            throw;
+        }
+    }
+
+    public async Task Delete(string key, CancellationToken ct = default)
+    {
+        try
+        {
+            var container = _blobClientProvider.Get();
+
+            await container.DeleteBlobAsync(key, DeleteSnapshotsOption.None, cancellationToken: ct);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Failed to delete entity with key: {key}", key);
             throw;
         }
     }
