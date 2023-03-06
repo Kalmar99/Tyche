@@ -17,7 +17,7 @@ internal class IdentityRepository
     
     public virtual async Task Set(IdentityStorableEntity entity, CancellationToken ct = default)
     {
-        var key = Md5Hash.Generate(entity.Email);
+        var key = IdentityStorableEntity.GetKey(entity.Email);
         
         try
         {
@@ -30,9 +30,9 @@ internal class IdentityRepository
         }
     }
     
-    public async Task<IdentityStorableEntity> Get(string email, CancellationToken ct = default)
+    public virtual async Task<IdentityStorableEntity> Get(string email, CancellationToken ct = default)
     {
-        var key = Md5Hash.Generate(email);
+        var key = IdentityStorableEntity.GetKey(email);
         
         try
         {

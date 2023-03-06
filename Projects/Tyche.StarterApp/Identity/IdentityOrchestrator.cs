@@ -1,7 +1,6 @@
 ﻿using System.Security.Claims;
 using Azure;
 using Microsoft.Extensions.Logging;
-using Tyche.StarterApp.Identity.Token;
 using Tyche.StarterApp.Shared;
 using Tyche.StarterApp.Shared.EmailClient;
 using Tyche.StarterApp.Shared.EventDispatcher;
@@ -116,8 +115,7 @@ internal class IdentityOrchestrator : IIdentityOrchestrator
                 return false;
             }
 
-            var identity =
-                await _storableEntityFactory.Create(dto.Name, dto.Email, dto.Password, IdentityRole.User, ct);
+            var identity = await _storableEntityFactory.Create(dto.Name, dto.Email, dto.Password, IdentityRole.User, ct);
 
             await _repository.Set(identity, ct);
 

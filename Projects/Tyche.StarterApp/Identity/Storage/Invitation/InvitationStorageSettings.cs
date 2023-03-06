@@ -1,6 +1,6 @@
 ﻿using Tyche.StarterApp.Shared.StorageClient;
 
-namespace Tyche.StarterApp.Identity.Token;
+namespace Tyche.StarterApp.Identity;
 
 public class InvitationStorageSettings : IStorageSettings
 {
