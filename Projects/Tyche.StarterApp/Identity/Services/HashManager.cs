@@ -9,7 +9,7 @@ internal class HashManager
         _repository = repository;
     }
     
-    public async Task<string> GeneratePasswordHash(string password, string userId, CancellationToken ct = default)
+    public virtual async Task<string> GeneratePasswordHash(string password, string userId, CancellationToken ct = default)
     {
         var hashedPassword = PasswordHasher.GenerateHash(password, out byte[] salt);
 
@@ -20,7 +20,7 @@ internal class HashManager
         return hashedPassword;
     }
 
-    public async Task<bool> VerifyPasswordHash(string password, string hash, string userId, CancellationToken ct = default)
+    public virtual async Task<bool> VerifyPasswordHash(string password, string hash, string userId, CancellationToken ct = default)
     {
         var saltEntity = await _repository.Get(userId, ct);
 

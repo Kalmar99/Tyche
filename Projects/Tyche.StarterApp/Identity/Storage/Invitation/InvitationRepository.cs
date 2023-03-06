@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using Tyche.StarterApp.Shared.StorageClient;
 
-namespace Tyche.StarterApp.Identity.Token;
+namespace Tyche.StarterApp.Identity;
 
 public class InvitationRepository
 {
@@ -14,7 +14,7 @@ public class InvitationRepository
         _logger = logger;
     }
     
-    public async Task<InvitationStorableEntity> Get(string key, CancellationToken ct = default)
+    public virtual async Task<InvitationStorableEntity> Get(string key, CancellationToken ct = default)
     {
         try
         {
