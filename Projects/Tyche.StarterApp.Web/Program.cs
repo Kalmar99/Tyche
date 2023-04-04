@@ -2,12 +2,20 @@ using Tyche.StarterApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSwaggerGen();
+builder.Services.AddRazorPages(options =>
+{
+    options.RootDirectory = "/";
+});
 
 builder.Services.AddComponents(builder.Configuration);
+
+
 
 var app = builder.Build();
 
@@ -36,6 +44,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.MapFallbackToFile("index.html");
 
