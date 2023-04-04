@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Tyche.StarterApp.Identity.Token;
 using Tyche.StarterApp.Shared;
 using Tyche.StarterApp.Shared.EventDispatcher;
 using Tyche.StarterApp.Shared.StorageClient;

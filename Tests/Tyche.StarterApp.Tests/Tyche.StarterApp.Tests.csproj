@@ -25,4 +25,10 @@
       <ProjectReference Include="..\..\Projects\Tyche.StarterApp\Tyche.StarterApp.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Identity\Static\InvitationTemplate.html">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

@@ -1,4 +1,5 @@
-﻿using Tyche.StarterApp.Shared.StorageClient;
+﻿using Tyche.StarterApp.Shared;
+using Tyche.StarterApp.Shared.StorageClient;
 
 namespace Tyche.StarterApp.Identity;
 
@@ -19,4 +20,6 @@ internal class IdentityStorableEntity : StorageEntity
     public string Name { get; }
 
     public IdentityRole Role { get; }
+    
+    public static string GetKey(string email) => Md5Hash.Generate(email);
 }

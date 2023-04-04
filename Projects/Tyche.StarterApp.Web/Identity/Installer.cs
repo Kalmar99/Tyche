@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Tyche.StarterApp.Identity.Token;
 using Tyche.StarterApp.Shared;
 
 namespace Tyche.StarterApp.Identity;
